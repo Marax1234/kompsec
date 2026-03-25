@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap');
+@import 'reveal.js/reset.css';
+@import 'reveal.js/reveal.css';
+@import 'reveal.js/plugin/highlight/monokai.css';
+@import 'tailwindcss';
+
+/* ===========================================
+   CSS VARIABLES – Dark Terminal Theme
+   =========================================== */
+:root {
+  --background-color: #0d1117;
+  --heading-font: "JetBrains Mono", "Fira Code", monospace;
+  --body-font: "Inter", Helvetica, sans-serif;
+  --base-font-size: 32px;
+  --text-size: 15pt;
+  --h1-size: 44pt;
+  --h2-size: 22pt;
+  --h3-size: 17pt;
+  --footnote-size: 10pt;
+
+  --teal:      #00C9A7;
+  --red:       #E63946;
+  --orange:    #FF8C00;
+  --gold:      #FFD700;
+  --green:     #00FF41;
+
+  --primary-color:   #00C9A7;
+  --text-color:      #E8EDF2;
+  --muted-color:     #7A8899;
+  --card-bg:         #131d2b;
+  --card-border:     #1e2a3a;
+
+  --slide-padding:     55px;
+  --slide-padding-top: 35px;
+  --content-gap:       20px;
+  --box-radius:        6px;
+}
+
+/* ===========================================
+   BASE
+   =========================================== */
+.reveal {
+  font-family: var(--body-font);
+  font-size: var(--base-font-size);
+}
+.reveal strong, .reveal b { font-weight: 700; }
+.reveal-viewport { background-color: var(--background-color); }
+
+.reveal h1, .reveal h2, .reveal h3,
+.reveal h4, .reveal h5, .reveal h6 {
+  font-family: var(--heading-font);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-color);
+  font-weight: 700;
+  line-height: 1.15;
+}
+.reveal h1 { font-size: var(--h1-size); }
+.reveal h2 { font-size: var(--h2-size); margin-bottom: 18px; }
+.reveal h3 { font-size: var(--h3-size); }
+
+.reveal p, .reveal li, .reveal td, .reveal th, .reveal blockquote {
+  font-size: var(--text-size);
+  color: var(--text-color);
+  line-height: 1.55;
+}
+
+/* Decorative top bar */
+.reveal .slides section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), transparent);
+}
+.slide-danger::before { background: linear-gradient(90deg, var(--red), transparent) !important; }
+.slide-orange::before { background: linear-gradient(90deg, var(--orange), transparent) !important; }
+
+/* ===========================================
+   SLIDE LAYOUT
+   =========================================== */
+.reveal .slides section {
+  height: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: var(--slide-padding-top) var(--slide-padding) var(--slide-padding) var(--slide-padding) !important;
+  box-sizing: border-box;
+  text-align: left;
+}
+.reveal .slides section.stack { padding: 0 !important; }
+
+.reveal .slides section > .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: var(--content-gap);
+}
+
+.reveal .slides section > .footnote {
+  position: absolute;
+  bottom: 12px;
+  left: var(--slide-padding);
+  right: var(--slide-padding);
+  font-size: var(--footnote-size);
+  color: var(--muted-color);
+  border-top: 1px solid var(--card-border);
+  padding-top: 6px;
+}
+
+/* ===========================================
+   LISTS
+   =========================================== */
+.reveal ul { list-style: none; padding-left: 0; margin: 10px 0; }
+.reveal ul li { position: relative; padding-left: 22px; margin-bottom: 8px; }
+.reveal ul li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.62em;
+  width: 7px; height: 7px;
+  background: var(--teal);
+  border-radius: 50%;
+}
+
+/* ===========================================
+   BLOCKQUOTE
+   =========================================== */
+.reveal blockquote {
+  border-left: 3px solid var(--teal);
+  padding: 12px 20px;
+  margin: 15px 0;
+  background: var(--card-bg);
+  font-style: normal;
+  box-shadow: none;
+  width: 100%;
+  max-width: none;
+  border-radius: 0 var(--box-radius) var(--box-radius) 0;
+}
+.reveal blockquote p { font-size: inherit; }
+
+/* ===========================================
+   TABLE
+   =========================================== */
+.reveal table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.reveal table th {
+  background: var(--teal);
+  color: #0d1117;
+  font-weight: 700;
+  font-size: 13pt;
+  padding: 8px 12px;
+  text-align: left;
+}
+.reveal table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 13pt;
+  color: var(--text-color);
+}
+.reveal table tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+.reveal table tr:hover td { background: rgba(0,201,167,0.06); }
+
+/* ===========================================
+   COMPONENTS
+   =========================================== */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--box-radius);
+  padding: 16px 20px;
+}
+.card-header {
+  font-family: var(--heading-font);
+  font-size: 13pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--card-border);
+}
+.card-header.teal   { color: var(--teal);   background: rgba(0,201,167,0.08); border-bottom-color: var(--teal);   margin: -16px -20px 12px; padding: 10px 20px; border-radius: var(--box-radius) var(--box-radius) 0 0; }
+.card-header.red    { color: #fff;           background: var(--red);            border-bottom-color: var(--red);    margin: -16px -20px 12px; padding: 10px 20px; border-radius: var(--box-radius) var(--box-radius) 0 0; }
+.card-header.orange { color: #0d1117;        background: var(--orange);         border-bottom-color: var(--orange); margin: -16px -20px 12px; padding: 10px 20px; border-radius: var(--box-radius) var(--box-radius) 0 0; }
+
+.stat-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--box-radius); padding: 14px 16px; text-align: center; }
+.stat-number { font-family: var(--heading-font); font-size: 30pt; font-weight: 700; color: var(--teal); line-height: 1.1; display: block; }
+.stat-label  { font-size: 12pt; color: var(--muted-color); margin-top: 4px; display: block; }
+
+.step-item {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 12px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--box-radius);
+  border-left: 3px solid var(--orange);
+}
+.step-number { font-family: var(--heading-font); font-size: 22pt; font-weight: 700; color: var(--orange); min-width: 36px; line-height: 1; }
+.step-title  { font-family: var(--heading-font); font-size: 13pt; font-weight: 700; color: var(--orange); margin-bottom: 4px; }
+
+.mitre-row { display: flex; gap: 14px; align-items: stretch; margin-bottom: 8px; }
+.mitre-tag { min-width: 90px; border-radius: var(--box-radius); padding: 6px 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+.mitre-id   { font-family: var(--heading-font); font-size: 13pt; font-weight: 700; display: block; }
+.mitre-name { font-size: 9pt; display: block; margin-top: 2px; }
+.mitre-content { flex: 1; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 0 var(--box-radius) var(--box-radius) 0; padding: 8px 14px; display: flex; align-items: center; }
+
+.timeline-item { display: flex; gap: 18px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--card-border); }
+.timeline-date { font-family: var(--heading-font); font-size: 12pt; font-weight: 700; min-width: 90px; text-align: right; padding-top: 2px; }
+.timeline-dot  { width: 14px; height: 14px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+
+.agenda-item { display: flex; gap: 20px; align-items: center; padding: 8px 14px; border-radius: var(--box-radius); margin-bottom: 6px; }
+.agenda-num  { font-family: var(--heading-font); font-size: 13pt; font-weight: 700; color: #0d1117; background: var(--teal); width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 4px; flex-shrink: 0; }
+.agenda-num.red    { background: var(--red);    color: #fff; }
+.agenda-num.orange { background: var(--orange); color: #0d1117; }
+
+.source-item { padding: 7px 14px; margin-bottom: 4px; background: var(--card-bg); border-left: 3px solid var(--card-border); border-radius: 0 var(--box-radius) var(--box-radius) 0; }
+
+.lesson-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--box-radius); padding: 14px 16px; display: flex; gap: 14px; align-items: flex-start; }
+.lesson-icon  { font-size: 20pt; min-width: 32px; text-align: center; line-height: 1.2; }
+.lesson-title { font-family: var(--heading-font); font-size: 12pt; font-weight: 700; margin-bottom: 4px; }
+
+.text-muted  { color: var(--muted-color) !important; }
+.font-mono   { font-family: var(--heading-font) !important; }
+.reveal h2 .icon { margin-right: 10px; }
+
+/* Terminal block for Typed.js */
+.terminal-block {
+  font-family: var(--heading-font);
+  font-size: 11pt;
+  background: #050a0e;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  color: #00FF41;
+  min-height: 52px;
+  line-height: 1.6;
+}
+
+/* Glitch animation */
+@keyframes glitch {
+  0%   { text-shadow:  2px 0   #00FF41,  -2px 0  #E63946; }
+  20%  { text-shadow: -2px 0   #00FF41,   2px 0  #E63946; }
+  40%  { text-shadow:  2px 2px #00FF41,  -2px -2px #E63946; }
+  60%  { text-shadow: 0 0 transparent; }
+  80%  { text-shadow: -2px 0   #00FF41,   2px 0  #E63946; }
+  100% { text-shadow:  2px 0   #00FF41,  -2px 0  #E63946; }
+}
+.glitch { animation: glitch 4s infinite; }
+
+/* Card visually recedes on auto-animate transition (slide 4B context) */
+.card-dimmed {
+  opacity: 0.45;
+  filter: brightness(0.7);
+  transition: opacity 0.3s, filter 0.3s;
+}
+
+/* Top-priority lesson card */
+.lesson-card.lesson-critical {
+  border-left: 3px solid var(--red);
+  background: rgba(230, 57, 70, 0.05);
+}
+
+/* Fragment performance hint */
+.reveal .slides section .fragment {
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
