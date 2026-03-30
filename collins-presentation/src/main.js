@@ -116,4 +116,56 @@ deck.initialize().then(() => {
   animateSlide(deck.getCurrentSlide())
 
   deck.on('slidechanged', ({ currentSlide }) => animateSlide(currentSlide))
+
+  // ─── Attack-Vector: per-fragment GSAP animations ───────────────────────
+  deck.on('fragmentshown', ({ fragment }) => {
+    if (deck.getCurrentSlide()?.id !== 'attack-vector') return
+    const step = fragment.dataset?.avStep
+    if (step === undefined) return
+
+    const node = fragment.querySelector('.av-node')
+    const connector = fragment.querySelector('.av-connector')
+
+    // Node pop-in with bounce
+    gsap.fromTo(node,
+      { scale: 0.3, opacity: 0 },
+      {
+        scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)', delay: 0.2,
+        onComplete: () => node.classList.add('av-node-active'),
+      }
+    )
+
+    // Connector draws itself downward
+    if (connector) {
+      gsap.to(connector, { scaleY: 1, duration: 0.55, ease: 'power2.out', delay: 0.55 })
+    }
+
+    // Step 4 – Ransomware: red flash + screen shake
+    if (step === '3') {
+      const overlay = document.createElement('div')
+      overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#E63946;z-index:9999;pointer-events:none;opacity:0;'
+      document.body.appendChild(overlay)
+      gsap.timeline()
+        .to(overlay, { opacity: 0.5, duration: 0.07 })
+        .to(overlay, { opacity: 0, duration: 0.7, ease: 'power2.out', onComplete: () => overlay.remove() })
+
+      gsap.timeline({ delay: 0.35 })
+        .to(fragment, { x: -11, duration: 0.05 })
+        .to(fragment, { x:  11, duration: 0.05 })
+        .to(fragment, { x:  -8, duration: 0.05 })
+        .to(fragment, { x:   8, duration: 0.05 })
+        .to(fragment, { x:  -4, duration: 0.05 })
+        .to(fragment, { x:   0, duration: 0.05 })
+    }
+  })
+
+  deck.on('fragmenthidden', ({ fragment }) => {
+    if (deck.getCurrentSlide()?.id !== 'attack-vector') return
+    if (fragment.dataset?.avStep === undefined) return
+
+    const node = fragment.querySelector('.av-node')
+    const connector = fragment.querySelector('.av-connector')
+    if (node)      { node.classList.remove('av-node-active'); gsap.set(node, { scale: 0.3, opacity: 0 }) }
+    if (connector) { gsap.set(connector, { scaleY: 0 }) }
+  })
 })

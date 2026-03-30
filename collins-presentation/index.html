@@ -179,35 +179,55 @@
       <!-- ==================== SLIDE 5: ATTACK VECTOR ==================== -->
       <section id="attack-vector" class="slide-orange">
         <h2><i class="fa-solid fa-crosshairs icon" style="color:#FF8C00;"></i>Angriffsvektor: Credential Theft bis Ransomware-Deployment</h2>
-        <div class="content" style="gap:12px;">
-          <div class="step-item fragment fade-up">
-            <p class="step-number">1</p>
-            <div>
-              <p class="step-title">Credential Theft (2022)</p>
-              <p>RedLine Infostealer infiziert Collins-Mitarbeiter-PC &rarr; FTP-Credentials (<code style="color:#00C9A7; background:#131d2b; padding:2px 6px; border-radius:3px;">aiscustomer</code>, <code style="color:#00C9A7; background:#131d2b; padding:2px 6px; border-radius:3px;">muse-insecure</code>) gestohlen</p>
+        <div class="content av-chain" style="gap:0; padding-top:14px;">
+
+          <div class="av-step fragment fade-up" data-fragment-index="0" data-av-step="0">
+            <div class="av-node-wrap">
+              <div class="av-node"><i class="fa-solid fa-key"></i></div>
+              <div class="av-connector"></div>
+            </div>
+            <div class="av-body">
+              <span class="av-badge">2022</span>
+              <p class="step-title">Credential Theft</p>
+              <p>RedLine Infostealer infiziert Collins-Mitarbeiter-PC &rarr; FTP-Credentials (<code class="av-code">aiscustomer</code>, <code class="av-code">muse-insecure</code>) gestohlen</p>
             </div>
           </div>
-          <div class="step-item fragment fade-up">
-            <p class="step-number">2</p>
-            <div>
-              <p class="step-title">Initial Access (10. Sept.)</p>
-              <p>Everest nutzt kompromittierte Credentials &rarr; Zugang zu <code style="color:#00C9A7; background:#131d2b; padding:2px 6px; border-radius:3px;">ftp.arinc.com</code> (vMUSE-Backend)</p>
+
+          <div class="av-step fragment fade-up" data-fragment-index="1" data-av-step="1">
+            <div class="av-node-wrap">
+              <div class="av-node"><i class="fa-solid fa-door-open"></i></div>
+              <div class="av-connector"></div>
+            </div>
+            <div class="av-body">
+              <span class="av-badge">10. September 2025</span>
+              <p class="step-title">Initial Access</p>
+              <p>Everest nutzt kompromittierte Credentials &rarr; Zugang zu <code class="av-code">ftp.arinc.com</code> (vMUSE-Backend)</p>
             </div>
           </div>
-          <div class="step-item fragment fade-up">
-            <p class="step-number">3</p>
-            <div>
-              <p class="step-title">Exfiltration (11. Sept.)</p>
+
+          <div class="av-step fragment fade-up" data-fragment-index="2" data-av-step="2">
+            <div class="av-node-wrap">
+              <div class="av-node"><i class="fa-solid fa-database"></i></div>
+              <div class="av-connector av-connector-to-danger"></div>
+            </div>
+            <div class="av-body">
+              <span class="av-badge">11. September 2025</span>
+              <p class="step-title">Exfiltration</p>
               <p>1,5 Mio. Passagierdaten, Mitarbeiterdaten, 50+ GB Netzwerk-Topologie exfiltriert</p>
             </div>
           </div>
-          <div class="step-item fragment fade-up" style="border-left-color:#E63946;">
-            <p class="step-number" style="color:#E63946;">4</p>
-            <div>
-              <p class="step-title" style="color:#E63946;">Ransomware (19. Sept.)</p>
+
+          <div class="av-step fragment fade-up" data-fragment-index="3" data-av-step="3">
+            <div class="av-node-wrap">
+              <div class="av-node av-node-danger"><i class="fa-solid fa-skull-crossbones"></i></div>
+            </div>
+            <div class="av-body">
+              <span class="av-badge av-badge-danger">19. September 2025</span>
+              <p class="step-title" style="color:#E63946;">Ransomware-Deployment</p>
               <p>HardBit-Ransomware verschlüsselt Core-Databases &rarr; MUSE-Systeme fallen europaweit aus</p>
             </div>
           </div>
+
         </div>
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
       </section>
