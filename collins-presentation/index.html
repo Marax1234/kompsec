@@ -18,7 +18,7 @@
         <div id="particles-bg" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></div>
         <div style="position:relative;z-index:1;">
           <div style="margin-bottom:28px;">
-            <i class="fa-solid fa-lock" style="font-size:48pt; color:#E63946;"></i>
+            <i class="fa-solid fa-lock" style="font-size:48pt; color:#E63946; animation:lock-pulse 2.5s ease-in-out infinite; filter:drop-shadow(0 0 18px #E63946cc);"></i>
           </div>
           <h1 class="glitch" style="font-size:40pt; color:#E8EDF2; text-transform:uppercase; letter-spacing:0.06em; line-height:1.2; margin-bottom:18px;">
             Ransomware-Angriff<br>auf Collins Aerospace
@@ -134,15 +134,12 @@
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
       </section>
 
-      <!-- ==================== SLIDE 4: COLLINS & MUSE (stack) ==================== -->
-      <section class="stack">
-
-        <!-- 4A: Overview -->
-        <section id="collins-muse-overview" data-auto-animate>
+      <!-- ==================== SLIDE 4: COLLINS & MUSE ==================== -->
+      <section id="collins-muse-overview">
           <h2><i class="fa-solid fa-server icon" style="color:#00C9A7;"></i>Collins Aerospace &amp; MUSE: 170 Flughäfen auf einer Plattform</h2>
           <div class="content">
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-              <div class="card" data-id="card-collins">
+              <div class="card">
                 <p class="card-header teal">Collins Aerospace (RTX Corp.)</p>
                 <ul>
                   <li><p>Tochter von RTX (ehem. Raytheon Technologies)</p></li>
@@ -151,53 +148,7 @@
                   <li><p>Avionik, Interiors, Mission Systems</p></li>
                 </ul>
               </div>
-              <div class="card" data-id="card-muse">
-                <p class="card-header teal">MUSE / vMUSE / cMUSE</p>
-                <ul>
-                  <li><p>Multi-User System Environment (CUPPS)</p></li>
-                  <li><p>Gemeinsame Check-in &amp; Boarding Plattform</p></li>
-                  <li><p>Airlines teilen Schalter, Kiosks, Gates</p></li>
-                  <li><p>Verbindung über ARINC AviNet VPN</p></li>
-                </ul>
-              </div>
-            </div>
-            <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
-              <div class="stat-box">
-                <span class="stat-number" style="font-size:22pt;">~170</span>
-                <span class="stat-label">Flughäfen weltweit</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-number" style="font-size:22pt;">3</span>
-                <span class="stat-label">Produktvarianten (MUSE, vMUSE, cMUSE)</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-number" style="font-size:22pt;">CUPPS</span>
-                <span class="stat-label">Common Use Passenger Processing Standard</span>
-              </div>
-              <div class="stat-box">
-                <span class="stat-number" style="font-size:22pt;">RTX</span>
-                <span class="stat-label">Mutterkonzern (Raytheon Technologies)</span>
-              </div>
-            </div>
-          </div>
-          <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
-        </section>
-
-        <!-- 4B: Vulnerabilities -->
-        <section id="collins-muse-vulns" data-auto-animate class="slide-orange">
-          <h2><i class="fa-solid fa-triangle-exclamation icon" style="color:#FF8C00;"></i>Kritische Schwachstellen in der MUSE-Infrastruktur</h2>
-          <div class="content">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-              <div class="card card-dimmed" data-id="card-collins">
-                <p class="card-header teal">Collins Aerospace (RTX Corp.)</p>
-                <ul>
-                  <li><p>Tochter von RTX (ehem. Raytheon Technologies)</p></li>
-                  <li><p>US-Rüstungs- und Luftfahrtkonzern</p></li>
-                  <li><p>Systeme für ~170 Flughäfen weltweit</p></li>
-                  <li><p>Avionik, Interiors, Mission Systems</p></li>
-                </ul>
-              </div>
-              <div class="card card-dimmed" data-id="card-muse">
+              <div class="card">
                 <p class="card-header teal">MUSE / vMUSE / cMUSE</p>
                 <ul>
                   <li><p>Multi-User System Environment (CUPPS)</p></li>
@@ -209,22 +160,20 @@
             </div>
             <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
               <div class="card fragment fade-up" style="border-left:3px solid #E63946;">
-                <p><strong style="color:#FF8C00;">Oracle GlassFish Server (ca. 2012)</strong></p>
+                <p><strong style="color:#FF8C00;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i>Oracle GlassFish Server (ca. 2012)</strong></p>
                 <p class="text-muted">Seit Jahren ungepacht; aktuelle Version: 7.0.25 <span style="font-size:9pt;">(exakte Versionsnummer nicht unabhängig verifiziert)</span></p>
               </div>
               <div class="card fragment fade-up" style="border-left:3px solid #E63946;">
-                <p><strong style="color:#FF8C00;">Webmail-Login über HTTP</strong></p>
+                <p><strong style="color:#FF8C00;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i>Webmail-Login über HTTP</strong></p>
                 <p class="text-muted">Keine Verschlüsselung der Anmeldedaten</p>
               </div>
               <div class="card fragment fade-up" style="border-left:3px solid #E63946;">
-                <p><strong style="color:#FF8C00;">FTP-Credentials nie rotiert</strong></p>
+                <p><strong style="color:#FF8C00;"><i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i>FTP-Credentials nie rotiert</strong></p>
                 <p class="text-muted">Kompromittiert durch RedLine Infostealer (2022)</p>
               </div>
             </div>
           </div>
           <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
-        </section>
-
       </section>
 
       <!-- ==================== SLIDE 5: ATTACK VECTOR ==================== -->

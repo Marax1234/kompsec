@@ -265,6 +265,11 @@
   will-change: opacity, transform;
 }
 
+@keyframes lock-pulse {
+  0%, 100% { filter: drop-shadow(0 0 10px #E6394688); transform: scale(1); }
+  50%       { filter: drop-shadow(0 0 28px #E63946ee); transform: scale(1.08); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
