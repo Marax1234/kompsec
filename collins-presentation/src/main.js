@@ -109,6 +109,9 @@ const deck = new Reveal({
 })
 
 deck.initialize().then(() => {
+  // Expose instance for headless export tools (e.g. decktape)
+  window.Reveal = deck
+
   // Animate the first visible slide
   animateSlide(deck.getCurrentSlide())
 

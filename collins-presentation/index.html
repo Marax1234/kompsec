@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ransomware-Angriff auf Collins Aerospace</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -105,9 +106,9 @@
             <p>Kontaktaufnahme &amp; gescheiterte Lösegeld-Verhandlungen</p>
           </div>
           <div class="timeline-item fragment fade-up" style="border-left:0; background:rgba(230,57,70,0.08); padding-left:12px; border-radius:4px;">
-            <p class="timeline-date" style="color:#E63946;">19. Sept.</p>
+            <p class="timeline-date" style="color:#E63946;">Nacht 19./20. Sept.</p>
             <div class="timeline-dot" style="background:#E63946; margin-top:5px;"></div>
-            <p><strong>Ransomware-Aktivierung – MUSE-Systeme verschlüsselt</strong></p>
+            <p><strong>HardBit-Deployment – MUSE-Systeme verschlüsselt; Systemausfall ab 20. Sept. ~22:00 Uhr MESZ</strong></p>
           </div>
           <div class="timeline-item fragment fade-up">
             <p class="timeline-date" style="color:#FF8C00;">20.–22. Sept.</p>
@@ -115,9 +116,9 @@
             <p>Chaos an BER, Heathrow, Brüssel, Dublin – manueller Betrieb</p>
           </div>
           <div class="timeline-item fragment fade-up">
-            <p class="timeline-date" style="color:#00C9A7;">24. Sept.</p>
+            <p class="timeline-date" style="color:#00C9A7;">23. Sept. / 24. Sept.</p>
             <div class="timeline-dot" style="background:#00C9A7; margin-top:5px;"></div>
-            <p>Festnahme eines 40-Jährigen in West Sussex (UK)</p>
+            <p>Festnahme eines 40-Jährigen in West Sussex (UK) – NCA-Pressemitteilung am 24. Sept.</p>
           </div>
           <div class="timeline-item fragment fade-up">
             <p class="timeline-date" style="color:#00C9A7;">29. Sept.</p>
@@ -208,8 +209,8 @@
             </div>
             <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
               <div class="card fragment fade-up" style="border-left:3px solid #E63946;">
-                <p><strong style="color:#FF8C00;">Oracle GlassFish Server 3.1.2.9 (2012)</strong></p>
-                <p class="text-muted">Seit Jahren ungepatch; aktuelle Version: 7.0.25</p>
+                <p><strong style="color:#FF8C00;">Oracle GlassFish Server (ca. 2012)</strong></p>
+                <p class="text-muted">Seit Jahren ungepacht; aktuelle Version: 7.0.25 <span style="font-size:9pt;">(exakte Versionsnummer nicht unabhängig verifiziert)</span></p>
               </div>
               <div class="card fragment fade-up" style="border-left:3px solid #E63946;">
                 <p><strong style="color:#FF8C00;">Webmail-Login über HTTP</strong></p>
@@ -266,16 +267,16 @@
       <section id="mitre" class="slide-danger">
         <h2><i class="fa-solid fa-crosshairs icon" style="color:#E63946;"></i>Die Angriffskette systematisch: MITRE ATT&amp;CK</h2>
         <div class="content" style="gap:8px;">
-          <div class="mitre-row fragment fade-up">
+          <div class="mitre-row fragment fade-up" data-fragment-index="0">
             <div class="mitre-tag" style="background:#E63946;">
               <span class="mitre-id" style="color:#fff;">TA0001</span>
               <span class="mitre-name" style="color:rgba(255,255,255,0.8);">Initial Access</span>
             </div>
             <div class="mitre-content">
-              <p>T1078 Valid Accounts &nbsp;·&nbsp; T1566.001 Phishing: Spearphishing Attachment &nbsp;·&nbsp; T1199 Trusted Relationship (Supply Chain)</p>
+              <p>T1078 Valid Accounts &nbsp;·&nbsp; T1199 Trusted Relationship (Supply Chain)</p>
             </div>
           </div>
-          <div class="mitre-row fragment fade-up">
+          <div class="mitre-row fragment fade-up" data-fragment-index="1">
             <div class="mitre-tag" style="background:#FF8C00;">
               <span class="mitre-id" style="color:#0d1117;">TA0002</span>
               <span class="mitre-name" style="color:rgba(0,0,0,0.7);">Execution</span>
@@ -284,7 +285,7 @@
               <p>T1204 User Execution <span class="text-muted">(Malware über Infostealer erfordert Nutzerinteraktion)</span></p>
             </div>
           </div>
-          <div class="mitre-row fragment fade-up">
+          <div class="mitre-row fragment fade-up" data-fragment-index="2">
             <div class="mitre-tag" style="background:#FFD700;">
               <span class="mitre-id" style="color:#0d1117;">TA0005</span>
               <span class="mitre-name" style="color:rgba(0,0,0,0.7);">Defense Evasion</span>
@@ -293,7 +294,7 @@
               <p>T1078 Valid Accounts <span class="text-muted">(Legitime FTP-Credentials umgehen Erkennung)</span></p>
             </div>
           </div>
-          <div class="mitre-row fragment fade-up">
+          <div class="mitre-row fragment fade-up" data-fragment-index="3">
             <div class="mitre-tag" style="background:#00C9A7;">
               <span class="mitre-id" style="color:#0d1117;">TA0009</span>
               <span class="mitre-name" style="color:rgba(0,0,0,0.7);">Collection</span>
@@ -302,7 +303,7 @@
               <p>T1005 Data from Local System <span class="text-muted">(Passagier-, Mitarbeiter-, Topologie-Daten)</span></p>
             </div>
           </div>
-          <div class="mitre-row fragment fade-up">
+          <div class="mitre-row fragment fade-up" data-fragment-index="3">
             <div class="mitre-tag" style="background:#4FC3F7;">
               <span class="mitre-id" style="color:#0d1117;">TA0010</span>
               <span class="mitre-name" style="color:rgba(0,0,0,0.7);">Exfiltration</span>
@@ -311,7 +312,7 @@
               <p>T1048 Exfiltration Over Alternative Protocol <span class="text-muted">(FTP-basierte Exfiltration über ftp.arinc.com)</span></p>
             </div>
           </div>
-          <div class="mitre-row fragment fade-up">
+          <div class="mitre-row fragment fade-up" data-fragment-index="4">
             <div class="mitre-tag" style="background:#E63946;">
               <span class="mitre-id" style="color:#fff;">TA0040</span>
               <span class="mitre-name" style="color:rgba(255,255,255,0.8);">Impact</span>
@@ -346,23 +347,20 @@
                 <li><p>Affiliate-/RaaS-Modell (jeder kann kaufen)</p></li>
                 <li><p>Kein eigenes Portal – sehr simpel</p></li>
                 <li><p>Verhandelt Lösegeld basierend auf Cyber-Versicherungspolice</p></li>
-                <li><p>Erkennbar mit Standard-AV (Windows Defender)</p></li>
+                <li><p>HardBit 4.0 deaktiviert Windows Defender aktiv (Registry, PowerShell)</p></li>
                 <li><p><strong style="color:#FF8C00;">Rolle hier: Ransomware-Deployment</strong></p></li>
               </ul>
             </div>
           </div>
           <blockquote class="fragment fade-up">
-            <p style="color:#00C9A7;"><strong>Dual-Incident-Szenario:</strong> Everest exfiltrierte Daten als IAB; ein separater Akteur deployete HardBit-Ransomware</p>
+            <p style="color:#00C9A7;"><strong>Dual-Incident-Szenario:</strong> Everest hat Verantwortung als IAB übernommen und behauptet, den Zugang an einen separaten HardBit-Deployer verkauft zu haben. <span style="color:#7A8899; font-size:10pt;">(Protos Labs: „claim-based attribution" – kein öffentlich präsentierter kryptografischer Beweis)</span></p>
           </blockquote>
         </div>
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
       </section>
 
-      <!-- ==================== SLIDE 8: IMPACT BER & EUROPE (stack) ==================== -->
-      <section class="stack">
-
-        <!-- 8A: Stats — CountUp fires here -->
-        <section id="impact">
+      <!-- ==================== SLIDE 8A: IMPACT BER & EUROPE ==================== -->
+      <section id="impact">
           <h2><i class="fa-solid fa-plane icon" style="color:#00C9A7;"></i>Schadensausmaß: Kennzahlen des Vorfalls</h2>
           <div class="content" style="justify-content:center;">
             <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:12px;">
@@ -389,11 +387,11 @@
             </div>
           </div>
           <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
-        </section>
+      </section>
 
-        <!-- 8B: Detail table -->
-        <section id="impact-detail">
-          <h2><i class="fa-solid fa-plane icon" style="color:#00C9A7;"></i>Auswirkungen auf fünf europäische Flughäfen</h2>
+      <!-- ==================== SLIDE 8B: AUSWIRKUNGEN FLUGHÄFEN ==================== -->
+      <section id="impact-detail">
+        <h2><i class="fa-solid fa-plane icon" style="color:#00C9A7;"></i>Auswirkungen auf fünf europäische Flughäfen</h2>
           <div class="content">
             <table>
               <thead>
@@ -402,17 +400,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="fragment fade-up"><td><strong>Berlin BER</strong></td><td>DE</td><td>Check-in, Kiosks, Gepäck</td><td>Berlin-Marathon verschärfte Chaos</td></tr>
-                <tr class="fragment fade-up"><td><strong>Heathrow</strong></td><td>UK</td><td>Begrenzt (BA eigenes System)</td><td>Erstes betroffenes Airport</td></tr>
-                <tr class="fragment fade-up"><td><strong>Brüssel</strong></td><td>BE</td><td>Vollständig – nur manuell</td><td>Langsamste Recovery</td></tr>
-                <tr class="fragment fade-up"><td><strong>Dublin</strong></td><td>IE</td><td>T2 – Check-in, Gepäck</td><td>Server-Rebuild from scratch</td></tr>
-                <tr class="fragment fade-up"><td><strong>Cork</strong></td><td>IE</td><td>Check-in, Verspätungen</td><td>—</td></tr>
+                <tr><td><strong>Berlin BER</strong></td><td>DE</td><td>Check-in, Kiosks, Gepäck</td><td>Berlin-Marathon verschärfte Chaos</td></tr>
+                <tr><td><strong>Heathrow</strong></td><td>UK</td><td>Begrenzt (BA eigenes System)</td><td>Betroffen ab 20. Sept.</td></tr>
+                <tr><td><strong>Brüssel</strong></td><td>BE</td><td>Vollständig – nur manuell</td><td>Zuerst betroffen (19. Sept.); langsamste Recovery</td></tr>
+                <tr><td><strong>Dublin</strong></td><td>IE</td><td>T2 – Check-in, Gepäck</td><td>Server-Rebuild from scratch</td></tr>
+                <tr><td><strong>Cork</strong></td><td>IE</td><td>Check-in, Verspätungen</td><td>—</td></tr>
               </tbody>
             </table>
           </div>
           <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
-        </section>
-
       </section>
 
       <!-- ==================== SLIDE 9: DATA EXFILTRATION ==================== -->
@@ -421,7 +417,7 @@
         <h2><i class="fa-solid fa-database icon" style="color:#E63946;"></i>Datenexfiltration &amp; Darknet-Veröffentlichung</h2>
         <div class="content">
           <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px;">
-            <div class="card fragment fade-up" style="border-top:3px solid #E63946;">
+            <div class="card fragment fade-up" data-fragment-index="0" style="border-top:3px solid #E63946;">
               <p style="font-family:var(--heading-font); font-size:13pt; font-weight:700; color:#E63946; margin-bottom:10px;">
                 <i class="fa-solid fa-triangle-exclamation" style="margin-right:6px;"></i>1.533.900 Passagierdaten
               </p>
@@ -431,7 +427,7 @@
                 <li><p>Passagier-IDs</p></li>
               </ul>
             </div>
-            <div class="card fragment fade-up" style="border-top:3px solid #FF8C00;">
+            <div class="card fragment fade-up" data-fragment-index="0" style="border-top:3px solid #FF8C00;">
               <p style="font-family:var(--heading-font); font-size:13pt; font-weight:700; color:#FF8C00; margin-bottom:10px;">
                 <i class="fa-solid fa-users" style="margin-right:6px;"></i>3.637 Mitarbeiterdaten
               </p>
@@ -441,7 +437,7 @@
                 <li><p>Login-Status, Audit-Metadaten</p></li>
               </ul>
             </div>
-            <div class="card fragment fade-up" style="border-top:3px solid #FF8C00;">
+            <div class="card fragment fade-up" data-fragment-index="1" style="border-top:3px solid #FF8C00;">
               <p style="font-family:var(--heading-font); font-size:13pt; font-weight:700; color:#FF8C00; margin-bottom:10px;">
                 <i class="fa-solid fa-network-wired" style="margin-right:6px;"></i>50+ GB Netzwerk-Topologie
               </p>
@@ -532,10 +528,10 @@
               </ul>
               <aside class="notes">Monetarisierung: Verkauf des Zugangs als IAB + Erpressung mit gestohlenen Daten</aside>
             </div>
-            <div class="fragment fade-up" style="display:flex; align-items:center; font-size:28pt; color:#FF8C00; padding-top:60px;">
+            <div class="fragment fade-up" data-fragment-index="0" style="display:flex; align-items:center; font-size:28pt; color:#FF8C00; padding-top:60px;">
               <i class="fa-solid fa-arrow-right"></i>
             </div>
-            <div class="card fragment fade-up">
+            <div class="card fragment fade-up" data-fragment-index="0">
               <p class="card-header orange">Akteur 2: Ransomware-Deployer</p>
               <p style="font-family:var(--heading-font); font-size:12pt; color:#7A8899; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">Phase: Destruction / Encryption</p>
               <ul>
@@ -547,8 +543,8 @@
               <aside class="notes">HardBit = RaaS-Affiliate-Modell – jeder kann Lizenz erwerben</aside>
             </div>
           </div>
-          <blockquote class="fragment fade-up">
-            <p>Typisch für modernes Ransomware-Ökosystem: Arbeitsteilung zwischen Initial Access Brokern (IAB) und Ransomware-Operatoren. Everest verkauft Netzwerk-Zugänge; ein Käufer deployt die Ransomware. <strong>Beide profitieren.</strong></p>
+          <blockquote class="fragment fade-up" data-fragment-index="1">
+            <p>Typisch für modernes Ransomware-Ökosystem: Arbeitsteilung zwischen Initial Access Brokern (IAB) und Ransomware-Operatoren. Everest hat Verantwortung übernommen und behauptet, den Zugang verkauft zu haben; ein Affiliate deployete HardBit. <strong>Beide profitieren.</strong> <span style="color:#7A8899; font-size:10pt;">(Laut Protos Labs noch „claim-based attribution")</span></p>
           </blockquote>
         </div>
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
@@ -559,15 +555,16 @@
         <h2><i class="fa-solid fa-gavel icon" style="color:#FF8C00;"></i>Rechtliche Implikationen: NIS2, DSGVO &amp; SEC-Meldepflichten</h2>
         <div class="content">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:10px;">
-            <div class="card fragment fade-up">
+            <div class="card fragment fade-up" data-fragment-index="0">
               <p class="card-header teal">NIS2-Richtlinie (EU)</p>
               <ul>
-                <li><p>24h Erstmeldung, 72h Detail-Report</p></li>
+                <li><p>24h Erstmeldung, 72h Detail-Report (Art. 23)</p></li>
+                <li><p>Abschlussbericht innerhalb 1 Monat nach 72h-Meldung</p></li>
                 <li><p>Essential Entities (KRITIS)</p></li>
                 <li><p>Geschäftsführerhaftung</p></li>
               </ul>
             </div>
-            <div class="card fragment fade-up">
+            <div class="card fragment fade-up" data-fragment-index="0">
               <p class="card-header teal">DSGVO / GDPR</p>
               <ul>
                 <li><p>72h Meldepflicht bei Data Breach</p></li>
@@ -591,7 +588,7 @@
               </ul>
             </div>
           </div>
-          <p class="text-muted" style="font-size:12pt; font-style:italic;">UK: Computer Misuse Act (Festnahme), NIS-Regulations, geplantes Cyber Security and Resilience Bill</p>
+          <p class="text-muted" style="font-size:12pt; font-style:italic;">UK: Computer Misuse Act (Festnahme), NIS-Regulations, Cyber Security and Resilience Bill (im Gesetzgebungsverfahren seit Nov. 2025)</p>
         </div>
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
       </section>
@@ -600,49 +597,70 @@
       <section id="lessons">
         <h2><i class="fa-solid fa-lightbulb icon" style="color:#FFD700;"></i>Lessons Learned &amp; Präventionsmaßnahmen</h2>
         <div class="content">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <p style="font-size:12pt; color:var(--muted-color); margin-bottom:14px;">Drei Schwachstellen ermöglichten den Angriffserfolg – alle waren vor dem Vorfall bekannt und behebbar.</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
             <div class="lesson-card lesson-critical fragment fade-up">
               <div class="lesson-icon"><i class="fa-solid fa-shield-halved" style="color:#00C9A7;"></i></div>
               <div>
                 <p class="lesson-title" style="color:#00C9A7;">Credential Hygiene</p>
-                <p>Regelmäßige Rotation, MFA, Monitoring auf Infostealer-Kompromittierungen</p>
+                <p>Infostealer-kompromittierte Zugangsdaten waren der initiale Eintrittspunkt. Regelmäßige Rotation, MFA auf allen kritischen Systemen und kontinuierliches Monitoring auf Credential-Leaks sind obligatorisch.</p>
               </div>
             </div>
             <div class="lesson-card lesson-critical fragment fade-up">
               <div class="lesson-icon"><i class="fa-solid fa-server" style="color:#4FC3F7;"></i></div>
               <div>
                 <p class="lesson-title" style="color:#4FC3F7;">Patch Management</p>
-                <p>Oracle GlassFish 2012 &rarr; inakzeptabel. Lifecycle-Management für alle Komponenten</p>
+                <p>Oracle GlassFish aus dem Jahr 2012 – eine bekannte CVE, ungepacht im Produktivbetrieb. Lifecycle-Management und Vulnerability-Scanning müssen auch für Drittsoftware gelten.</p>
               </div>
             </div>
             <div class="lesson-card lesson-critical fragment fade-up">
               <div class="lesson-icon"><i class="fa-solid fa-sitemap" style="color:#FF8C00;"></i></div>
               <div>
                 <p class="lesson-title" style="color:#FF8C00;">Supply-Chain-Audits</p>
-                <p>Vertraglich vereinbarte Sicherheitsstandards, Redundanz, regelmäßige Penetrationstests</p>
+                <p>MUSE als externer Dienstleister war das schwächste Glied. Vertraglich vereinbarte Sicherheitsstandards, Penetrationstests und Redundanzanforderungen für kritische Lieferketten sind unerlässlich.</p>
               </div>
             </div>
-            <p class="fragment fade-in" style="grid-column:1/-1; font-family:var(--heading-font); font-size:11pt; font-weight:700; color:var(--muted-color); text-transform:uppercase; letter-spacing:0.1em; margin:4px 0 0; border-top:1px solid var(--card-border); padding-top:8px;">Weitere Maßnahmen</p>
-            <div class="lesson-card fragment fade-up">
+          </div>
+          <div class="card fragment fade-up" style="margin-top:16px; border-left:3px solid #FFD700; background:rgba(255,215,0,0.06); padding:16px 20px;">
+            <p style="font-size:11.5pt; line-height:1.7;"><strong style="color:#FFD700;">Kernbefund:</strong> Technische Sicherheitslücken bleiben ohne organisatorische Verantwortung – klare Zuständigkeiten, Budgets, Prozesse – dauerhaft offen. Der Collins-Fall ist kein Einzelfall, sondern ein strukturelles Muster kritischer Infrastruktur.</p>
+          </div>
+        </div>
+        <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
+      </section>
+
+      <!-- ==================== SLIDE 13b: WEITERE PRÄVENTIONSMASSNAHMEN ==================== -->
+      <section id="lessons-further">
+        <h2><i class="fa-solid fa-shield-virus icon" style="color:#4FC3F7;"></i>Weitere Präventionsmaßnahmen</h2>
+        <div class="content">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
+            <div class="lesson-card fragment fade-up" style="border-left:3px solid #E63946;">
               <div class="lesson-icon"><i class="fa-solid fa-database" style="color:#E63946;"></i></div>
               <div>
                 <p class="lesson-title" style="color:#E63946;">Netzwerk-Segmentierung</p>
-                <p>MUSE außerhalb RTX-Netzwerk, aber interne Segmentierung fehlte offenbar</p>
+                <p>MUSE lief zwar außerhalb des RTX-Kernnetzwerks – interne Segmentierung fehlte jedoch offenbar. Kritische Systeme müssen in isolierten Zonen mit strikten Zugriffsregeln betrieben werden.</p>
               </div>
             </div>
-            <div class="lesson-card fragment fade-up">
-              <div class="lesson-icon"><i class="fa-solid fa-hammer" style="color:#E63946;"></i></div>
+            <div class="lesson-card fragment fade-up" style="border-left:3px solid #FF8C00;">
+              <div class="lesson-icon"><i class="fa-solid fa-hammer" style="color:#FF8C00;"></i></div>
               <div>
-                <p class="lesson-title" style="color:#E63946;">Incident Response</p>
-                <p>Reinfektionen zeigen mangelnde Containment-Strategie; IR-Plan muss Supply-Chain abdecken</p>
+                <p class="lesson-title" style="color:#FF8C00;">Incident Response</p>
+                <p>Mehrfache Reinfektionen zeigen eine mangelnde Containment-Strategie. IR-Pläne müssen Supply-Chain-Szenarien explizit abdecken – inklusive koordinierter Kommunikation mit betroffenen Dritten.</p>
               </div>
             </div>
-            <div class="lesson-card fragment fade-up">
+            <div class="lesson-card fragment fade-up" style="border-left:3px solid #FFD700;">
               <div class="lesson-icon"><i class="fa-solid fa-rotate" style="color:#FFD700;"></i></div>
               <div>
                 <p class="lesson-title" style="color:#FFD700;">Redundanz &amp; Fallback</p>
-                <p>Positiv-Beispiel FMO: eigenes System. Graceful Degradation statt Totalausfall planen</p>
+                <p>Positivbeispiel FMO: eigenes Backendsystem verhinderte den Totalausfall. Graceful Degradation muss architektonisch verankert sein – nicht als Notbehelf, sondern als Designprinzip.</p>
               </div>
+            </div>
+          </div>
+          <div class="card fragment fade-up" style="margin-top:16px; border-top:3px solid #4FC3F7; padding:16px 20px;">
+            <p style="font-family:var(--heading-font); font-size:10pt; font-weight:700; color:var(--muted-color); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Regulatorische Einordnung</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; font-size:11pt; line-height:1.6;">
+              <p><strong style="color:#4FC3F7;">NIS2</strong> Art.&nbsp;21 Abs.&nbsp;2 verlangt technische und organisatorische Maßnahmen; Segmentierung fällt als Teil der Cyber-Hygiene-Pflichten unter Buchstabe (g), Incident Response unter Buchstabe (b). Verstöße sind direkt bußgeldbewehrt.</p>
+              <p><strong style="color:#00C9A7;">DSGVO</strong> Art.&nbsp;32 fordert angemessene technische Maßnahmen – mangelnde Segmentierung begründet direkt Haftung bei Datenschutzverletzungen.</p>
+              <p><strong style="color:#FF8C00;">CRA</strong> verankert Redundanzanforderungen für Produkte mit digitalen Elementen ab Dez. 2027 vollständig; Meldepflichten an ENISA greifen bereits ab Sept. 2026.</p>
             </div>
           </div>
         </div>
@@ -657,16 +675,16 @@
             <p style="line-height:1.7;">Der Ransomware-Angriff auf Collins Aerospace zeigt exemplarisch die Verwundbarkeit kritischer Infrastruktur durch Supply-Chain-Angriffe:</p>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div class="fragment fade-up" style="padding:14px 18px; background:rgba(230,57,70,0.08); border-left:3px solid #E63946; border-radius:0 6px 6px 0;">
+            <div class="fragment fade-up" data-fragment-index="0" style="padding:14px 18px; background:rgba(230,57,70,0.08); border-left:3px solid #E63946; border-radius:0 6px 6px 0;">
               <p><strong style="color:#E63946;">Technisch:</strong> Veraltete Infrastruktur (GlassFish 2012), nicht rotierte Credentials (seit 2022), fehlende Netzwerk-Segmentierung ermöglichen einen 'incredibly basic' Angriff mit verheerenden Folgen.</p>
             </div>
-            <div class="fragment fade-up" style="padding:14px 18px; background:rgba(255,140,0,0.08); border-left:3px solid #FF8C00; border-radius:0 6px 6px 0;">
+            <div class="fragment fade-up" data-fragment-index="0" style="padding:14px 18px; background:rgba(255,140,0,0.08); border-left:3px solid #FF8C00; border-radius:0 6px 6px 0;">
               <p><strong style="color:#FF8C00;">Organisatorisch:</strong> Single Point of Failure durch zentrale Multi-Tenant-Plattform. Dual-Incident-Szenario (IAB + Ransomware) als typisches Muster moderner Cyberkriminalität.</p>
             </div>
-            <div class="fragment fade-up" style="padding:14px 18px; background:rgba(0,201,167,0.08); border-left:3px solid #00C9A7; border-radius:0 6px 6px 0;">
-              <p><strong style="color:#00C9A7;">Rechtlich:</strong> NIS2, DSGVO, CRA und SEC-Meldepflichten greifen. §30 BSIG-E hätte Supply-Chain-Risikobewertung erzwungen. Geschäftsführerhaftung wird Realität.</p>
+            <div class="fragment fade-up" data-fragment-index="1" style="padding:14px 18px; background:rgba(0,201,167,0.08); border-left:3px solid #00C9A7; border-radius:0 6px 6px 0;">
+              <p><strong style="color:#00C9A7;">Rechtlich:</strong> NIS2, DSGVO, CRA und SEC-Meldepflichten greifen. §30 BSIG hätte Supply-Chain-Risikobewertung erzwungen. Geschäftsführerhaftung wird Realität.</p>
             </div>
-            <div class="fragment fade-up" style="padding:14px 18px; background:rgba(255,215,0,0.08); border-left:3px solid #FFD700; border-radius:0 6px 6px 0;">
+            <div class="fragment fade-up" data-fragment-index="1" style="padding:14px 18px; background:rgba(255,215,0,0.08); border-left:3px solid #FFD700; border-radius:0 6px 6px 0;">
               <p><strong style="color:#FFD700;">Methodisch:</strong> MITRE ATT&amp;CK ermöglicht strukturierte Analyse der Angriffskette von Initial Access (T1078) über Exfiltration (T1048) bis Impact (T1486).</p>
             </div>
           </div>
@@ -680,19 +698,26 @@
         <div class="content" style="gap:0;">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px 16px;">
             <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[1] RTX Corp. – SEC Filing Form 8-K, 26.09.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[8] breached.company – Collins Aerospace Cyber-Attack, 24.09.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[8] BlackFog – Ransomware on Collins Aerospace, 29.09.2025</p></div>
             <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[2] ENISA – Offizielle Ransomware-Bestätigung, 22.09.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[9] BlackFog – Ransomware on Collins Aerospace, 29.09.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[9] Resilience – Collins Aerospace Outage: Vendor Risk, 24.09.2025</p></div>
             <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[3] Protos Labs – Deep Dive: Everest Group, 25.10.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[10] Resilience – Collins Aerospace Outage: Vendor Risk, 24.09.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[4] CyberNews – Everest Claims &amp; Data Leak, 20.10. / 12.11.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[11] Born's IT-Blog – Nachlese Sicherheitsvorfall Collins, 24.09.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[10] SecurityWeek – RTX Confirms Airport Services Hit, 25.09.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[4] Cyberdaily.au – Passenger &amp; Employee Data Compromised, 22.10.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[11] Heise Online – Old Passwords &amp; Delayed Response, 26.10.2025</p></div>
             <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[5] Lawfare – European Airports Ransomware Attack, 21.11.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[12] SecurityWeek – RTX Confirms Airport Services Hit, 25.09.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[12] Part-IS.eu – Everest Ransomware Targets Collins Aerospace, 30.10.2025</p></div>
             <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[6] Taylor Wessing – NIS2 Implementation: Lessons Learnt, 25.09.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[13] IT-Planet – Flughafen Berlin betroffen, 08.12.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[13] EP &amp; Rat der EU – NIS-2-Richtlinie (EU) 2022/2555, Amtsbl. L 333, 2022</p></div>
             <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[7] Industrial Cyber – Cyberattack on a Software Product, 14.10.2025</p></div>
-            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[14] Wikipedia – Collins Aerospace Cyberattack</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[14] EP &amp; Rat der EU – Cyber Resilience Act (EU) 2024/2847, Amtsbl., 2024</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[15] EP &amp; Rat der EU – DSGVO (EU) 2016/679, Art. 32 &amp; 33, Amtsbl. L 119, 2016</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[16] EU-Kommission – EASA Part-IS, Del.VO (EU) 2022/1645 &amp; DVO (EU) 2023/203</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[17] Hudson Rock – Infostealer-Analyse: Collins Aerospace Credential Theft, 2022/2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[18] BBC News – NCA Arrests Man in West Sussex Over Airport Cyberattack, 24.09.2025</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[19] Wikipedia – Collins Aerospace Cyberattack (2025); Reihenfolge betroffener Flughäfen</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[20] PMC / MDPI – Smart Airport Cybersecurity: Survey Study (Soussi et al.), 2018</p></div>
+            <div class="source-item" style="padding:5px 12px;"><p style="font-size:11pt;">[21] LinkedIn – A. Timajchi: „No one ever planned for a day when common use itself would need a backup", Feb. 2026</p></div>
           </div>
         </div>
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
