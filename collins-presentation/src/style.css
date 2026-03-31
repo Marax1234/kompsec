@@ -571,3 +571,224 @@
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ─── Timeline Theatrical Stage (Slide 3) ───────────────────────────────── */
+#timeline .content {
+  padding-top: 6px !important;
+  gap: 0 !important;
+  position: relative;
+}
+
+/* Act-divider labels */
+.tl-stage .tl-act {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0 2px;
+  opacity: 0;
+  transform: scaleX(0.55);
+  transform-origin: left center;
+}
+/* Static act header (not a fragment — always visible on slide entry) */
+.tl-act-static {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.tl-act-bar-l {
+  height: 1px;
+  width: 60px;
+  flex-shrink: 0;
+  background: linear-gradient(to right, transparent, currentColor);
+  opacity: 0.5;
+}
+.tl-act-bar-r {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(to right, currentColor, transparent);
+  opacity: 0.3;
+}
+
+.tl-act-label {
+  font-family: var(--heading-font);
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 2px 10px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Scene grid */
+.tl-scene {
+  display: grid;
+  grid-template-columns: 96px 26px 1fr;
+  gap: 0 10px;
+  opacity: 0;
+  padding: 2px 0;
+}
+
+.tl-date-col {
+  text-align: right;
+  padding-top: 7px;
+  padding-right: 2px;
+}
+.tl-date {
+  font-family: var(--heading-font);
+  font-size: 10pt;
+  font-weight: 700;
+  line-height: 1.25;
+  display: block;
+}
+
+.tl-node-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tl-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  background: rgba(0,0,0,0.6);
+  flex-shrink: 0;
+  margin-top: 6px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tl-dot::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.tl-dot-skull {
+  border-width: 2.5px;
+}
+
+/* Ring-pulse: added via JS classlist */
+@keyframes tl-ring {
+  0%   { opacity: 0.85; transform: scale(0.6); }
+  100% { opacity: 0;    transform: scale(2.6); }
+}
+.tl-dot-pulse::after {
+  animation: tl-ring 0.65s ease-out forwards;
+}
+
+.tl-line {
+  flex: 1;
+  width: 2px;
+  background: currentColor;
+  transform-origin: top;
+  transform: scaleY(0);
+  min-height: 6px;
+  opacity: 0.45;
+}
+
+/* Scene body */
+.tl-body {
+  padding: 3px 0 10px 2px;
+}
+
+.tl-badge {
+  display: inline-block;
+  font-family: var(--heading-font);
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  padding: 1px 8px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  background: rgba(255,255,255,0.04);
+  margin-bottom: 3px;
+}
+
+.tl-title {
+  font-family: var(--heading-font);
+  font-size: 11pt;
+  font-weight: 700;
+  margin: 0 0 2px;
+  line-height: 1.3;
+}
+
+.tl-text {
+  font-size: 11pt !important;
+  color: var(--text-color) !important;
+  line-height: 1.4;
+  margin: 0 !important;
+}
+
+/* Critical event body */
+.tl-critical .tl-body {
+  background: rgba(230,57,70,0.07);
+  border: 1px solid rgba(230,57,70,0.35);
+  border-radius: var(--box-radius);
+  padding: 8px 12px 8px 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanline texture on critical */
+.tl-critical .tl-body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(230,57,70,0.04) 3px,
+    rgba(230,57,70,0.04) 4px
+  );
+  pointer-events: none;
+  border-radius: var(--box-radius);
+}
+
+/* Attacker/victim directionality is set by GSAP (initial x offset) */
+
+/* Glitch-frames for HardBit entrance */
+@keyframes tl-glitch-skew {
+  0%   { clip-path: inset(0 0 85% 0); transform: translateX(-6px); }
+  14%  { clip-path: inset(60% 0 20% 0); transform: translateX(6px); }
+  28%  { clip-path: inset(30% 0 55% 0); transform: translateX(-4px); }
+  42%  { clip-path: inset(75% 0 5%  0); transform: translateX(4px); }
+  57%  { clip-path: inset(10% 0 70% 0); transform: translateX(-2px); }
+  71%  { clip-path: inset(50% 0 35% 0); transform: translateX(2px); }
+  86%  { clip-path: inset(0  0 0   0); transform: translateX(0); }
+  100% { clip-path: inset(0  0 0   0); transform: translateX(0); }
+}
+
+.tl-critical-glitch {
+  animation: tl-glitch-skew 0.38s steps(1) forwards;
+}
+
+/* Arrest spotlight pulse */
+@keyframes tl-spotlight {
+  0%   { box-shadow: none; }
+  40%  { box-shadow: 0 0 40px 6px rgba(0,201,167,0.35); }
+  100% { box-shadow: none; }
+}
+.tl-arrest-glow {
+  animation: tl-spotlight 1.2s ease-out forwards;
+}
+
+/* Tension build: subtle red border-left glow on critical, pulsing */
+@keyframes tl-border-pulse {
+  0%, 100% { border-left-color: rgba(230,57,70,0.35); }
+  50%       { border-left-color: rgba(230,57,70,0.85); }
+}
+.tl-critical .tl-body {
+  animation: tl-border-pulse 2s ease-in-out infinite 0.5s;
+}

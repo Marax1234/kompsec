@@ -240,6 +240,115 @@ deck.initialize().then(() => {
       }
     }
 
+    // ── Timeline: theatrical stage (both slides) ─────────────────────────────
+    if (slideId === 'timeline' || slideId === 'timeline-2') {
+      const step = fragment.dataset?.tlStep
+      if (!step) return
+
+      // ── Act dividers + first event ──────────────────────────────────────────
+      if (step.startsWith('act')) {
+        const act = fragment.querySelector('.tl-act')
+        if (act) {
+          gsap.fromTo(act,
+            { opacity: 0, scaleX: 0.45 },
+            { opacity: 1, scaleX: 1, duration: 0.55, ease: 'power3.out' }
+          )
+        }
+        // Animate the bundled first scene with a slight delay
+        const firstScene = fragment.querySelector('.tl-scene')
+        if (firstScene) {
+          const xl = firstScene.classList.contains('tl-attacker') ? -38 : firstScene.classList.contains('tl-victim') ? 38 : 0
+          const yl = xl === 0 ? 16 : 0
+          gsap.fromTo(firstScene,
+            { opacity: 0, x: xl, y: yl },
+            { opacity: 1, x: 0, y: 0, duration: 0.5, ease: 'power3.out', delay: 0.2 }
+          )
+          const dot  = firstScene.querySelector('.tl-dot')
+          const line = firstScene.querySelector('.tl-line')
+          if (dot) gsap.delayedCall(0.42, () => { dot.classList.remove('tl-dot-pulse'); void dot.offsetWidth; dot.classList.add('tl-dot-pulse') })
+          if (line) gsap.to(line, { scaleY: 1, duration: 0.55, ease: 'power2.inOut', delay: 0.5 })
+        }
+        return
+      }
+
+      const scene   = fragment.querySelector('.tl-scene')
+      const dot     = scene?.querySelector('.tl-dot')
+      const line    = scene?.querySelector('.tl-line')
+      const isCrit  = fragment.dataset?.tlCritical === 'true'
+      const isArrest = fragment.dataset?.tlArrest === 'true'
+      const isLeft  = scene?.classList.contains('tl-attacker')
+      const isRight = scene?.classList.contains('tl-victim')
+
+      const xFrom = isLeft ? -38 : isRight ? 38 : 0
+      const yFrom = (!isLeft && !isRight) ? 16 : 0
+
+      if (isCrit) {
+        // ── Red screen flash ──────────────────────────────────────────────────
+        const overlay = document.createElement('div')
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#E63946;pointer-events:none;opacity:0;z-index:9999;'
+        document.body.appendChild(overlay)
+        gsap.timeline()
+          .to(overlay, { opacity: 0.5,  duration: 0.05 })
+          .to(overlay, { opacity: 0.08, duration: 0.12 })
+          .to(overlay, { opacity: 0.38, duration: 0.04 })
+          .to(overlay, { opacity: 0,    duration: 1.1, ease: 'power2.out', onComplete: () => overlay.remove() })
+
+        // ── Screen shake ──────────────────────────────────────────────────────
+        const slide = deck.getCurrentSlide()
+        gsap.timeline({ delay: 0.02 })
+          .to(slide, { x: -12, duration: 0.05 })
+          .to(slide, { x:  12, duration: 0.05 })
+          .to(slide, { x:  -9, duration: 0.05 })
+          .to(slide, { x:   9, duration: 0.05 })
+          .to(slide, { x:  -5, duration: 0.05 })
+          .to(slide, { x:   5, duration: 0.05 })
+          .to(slide, { x:   0, duration: 0.04 })
+
+        // ── Glitch entrance ───────────────────────────────────────────────────
+        if (scene) {
+          gsap.set(scene, { opacity: 1 })
+          scene.classList.add('tl-critical-glitch')
+          setTimeout(() => scene.classList.remove('tl-critical-glitch'), 420)
+        }
+      } else if (isArrest) {
+        // ── Spotlight / relief flash ──────────────────────────────────────────
+        const overlay = document.createElement('div')
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#00C9A7;pointer-events:none;opacity:0;z-index:9999;'
+        document.body.appendChild(overlay)
+        gsap.timeline()
+          .to(overlay, { opacity: 0.12, duration: 0.08 })
+          .to(overlay, { opacity: 0,    duration: 0.7, ease: 'power2.out', onComplete: () => overlay.remove() })
+
+        if (scene) {
+          scene.classList.add('tl-arrest-glow')
+          gsap.fromTo(scene, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
+        }
+      } else {
+        // ── Standard directional entrance ─────────────────────────────────────
+        if (scene) {
+          gsap.fromTo(scene,
+            { opacity: 0, x: xFrom, y: yFrom },
+            { opacity: 1, x: 0, y: 0, duration: 0.5, ease: 'power3.out' }
+          )
+        }
+      }
+
+      // ── Dot ring pulse ────────────────────────────────────────────────────
+      if (dot) {
+        gsap.delayedCall(isCrit ? 0.42 : 0.22, () => {
+          dot.classList.remove('tl-dot-pulse')
+          void dot.offsetWidth // reflow to restart animation
+          dot.classList.add('tl-dot-pulse')
+        })
+      }
+
+      // ── Line grows to next event ──────────────────────────────────────────
+      if (line) {
+        gsap.to(line, { scaleY: 1, duration: 0.55, ease: 'power2.inOut', delay: isCrit ? 0.5 : 0.3 })
+      }
+      return
+    }
+
     // ── Lessons Learned ──────────────────────────────────────────────────────
     if (slideId === 'lessons') {
       if (fragment.dataset?.llStep === undefined) return
@@ -291,6 +400,32 @@ deck.initialize().then(() => {
 
   deck.on('fragmenthidden', ({ fragment }) => {
     const slideId = deck.getCurrentSlide()?.id
+
+    // ── Timeline reset ────────────────────────────────────────────────────────
+    if (slideId === 'timeline' || slideId === 'timeline-2') {
+      const step = fragment.dataset?.tlStep
+      if (!step) return
+      if (step.startsWith('act')) {
+        const act = fragment.querySelector('.tl-act')
+        if (act) gsap.set(act, { opacity: 0, scaleX: 0.45 })
+        const firstScene = fragment.querySelector('.tl-scene')
+        if (firstScene) {
+          gsap.set(firstScene, { opacity: 0, x: 0, y: 0 })
+          const dot  = firstScene.querySelector('.tl-dot')
+          const line = firstScene.querySelector('.tl-line')
+          if (dot)  dot.classList.remove('tl-dot-pulse')
+          if (line) gsap.set(line, { scaleY: 0 })
+        }
+      } else {
+        const scene = fragment.querySelector('.tl-scene')
+        const dot   = scene?.querySelector('.tl-dot')
+        const line  = scene?.querySelector('.tl-line')
+        if (scene) gsap.set(scene, { opacity: 0, x: 0, y: 0 })
+        if (dot)   dot.classList.remove('tl-dot-pulse')
+        if (line)  gsap.set(line, { scaleY: 0 })
+      }
+      return
+    }
 
     if (slideId === 'attack-vector') {
       if (fragment.dataset?.avStep === undefined) return
