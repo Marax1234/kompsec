@@ -566,33 +566,56 @@
       <section id="lessons">
         <h2><i class="fa-solid fa-lightbulb icon" style="color:#FFD700;"></i>Lessons Learned &amp; Präventionsmaßnahmen</h2>
         <div class="content">
-          <p style="font-size:12pt; color:var(--muted-color); margin-bottom:14px;">Drei Schwachstellen ermöglichten den Angriffserfolg – alle waren vor dem Vorfall bekannt und behebbar.</p>
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
-            <div class="lesson-card lesson-critical fragment fade-up">
-              <div class="lesson-icon"><i class="fa-solid fa-shield-halved" style="color:#00C9A7;"></i></div>
-              <div>
-                <p class="lesson-title" style="color:#00C9A7;">Credential Hygiene</p>
-                <p>Infostealer-kompromittierte Zugangsdaten waren der initiale Eintrittspunkt. Regelmäßige Rotation, MFA auf allen kritischen Systemen und kontinuierliches Monitoring auf Credential-Leaks sind obligatorisch.</p>
+          <p class="ll-intro">Drei Schwachstellen ermöglichten den Angriffserfolg – <strong>alle waren vor dem Vorfall bekannt und behebbar.</strong></p>
+
+          <div class="ll-chain">
+
+            <!-- Step 0: Credential Hygiene -->
+            <div class="fragment" data-ll-step="0">
+              <div class="ll-item" style="--ll-color:#E63946;">
+                <div class="ll-num">01</div>
+                <div class="ll-body">
+                  <div class="ll-cause"><i class="fa-solid fa-key" style="margin-right:5px;"></i>Infostealer-Fund 2022 → Credentials 3 Jahre nicht rotiert → <strong style="color:#E63946;">Initial Access</strong></div>
+                  <p class="ll-title">Credential Hygiene</p>
+                  <div class="ll-fix"><i class="fa-solid fa-check" style="margin-right:5px;"></i>MFA auf allen kritischen Systemen · regelmäßige Rotation · kontinuierliches Leak-Monitoring</div>
+                </div>
               </div>
             </div>
-            <div class="lesson-card lesson-critical fragment fade-up">
-              <div class="lesson-icon"><i class="fa-solid fa-server" style="color:#4FC3F7;"></i></div>
-              <div>
-                <p class="lesson-title" style="color:#4FC3F7;">Patch Management</p>
-                <p>Oracle GlassFish aus dem Jahr 2012 – eine bekannte CVE, ungepacht im Produktivbetrieb. Lifecycle-Management und Vulnerability-Scanning müssen auch für Drittsoftware gelten.</p>
+
+            <!-- Step 1: Patch Management -->
+            <div class="fragment" data-ll-step="1">
+              <div class="ll-item" style="--ll-color:#4FC3F7;">
+                <div class="ll-num">02</div>
+                <div class="ll-body">
+                  <div class="ll-cause"><i class="fa-solid fa-server" style="margin-right:5px;"></i>Oracle GlassFish 3.1.2.9 (2012) in Produktion → bekannte CVE ungepacht → <strong style="color:#4FC3F7;">RCE</strong></div>
+                  <p class="ll-title">Patch Management</p>
+                  <div class="ll-fix"><i class="fa-solid fa-check" style="margin-right:5px;"></i>Lifecycle-Richtlinien · Vulnerability-Scanning · gilt explizit auch für Drittsoftware</div>
+                </div>
               </div>
             </div>
-            <div class="lesson-card lesson-critical fragment fade-up">
-              <div class="lesson-icon"><i class="fa-solid fa-sitemap" style="color:#FF8C00;"></i></div>
-              <div>
-                <p class="lesson-title" style="color:#FF8C00;">Supply-Chain-Audits</p>
-                <p>MUSE als externer Dienstleister war das schwächste Glied. Vertraglich vereinbarte Sicherheitsstandards, Penetrationstests und Redundanzanforderungen für kritische Lieferketten sind unerlässlich.</p>
+
+            <!-- Step 2: Supply-Chain-Audits -->
+            <div class="fragment" data-ll-step="2">
+              <div class="ll-item" style="--ll-color:#FF8C00;">
+                <div class="ll-num">03</div>
+                <div class="ll-body">
+                  <div class="ll-cause"><i class="fa-solid fa-sitemap" style="margin-right:5px;"></i>MUSE ohne vertragliche Sicherheitsstandards → schwächstes Glied → <strong style="color:#FF8C00;">Single Point of Failure</strong></div>
+                  <p class="ll-title">Supply-Chain-Audits</p>
+                  <div class="ll-fix"><i class="fa-solid fa-check" style="margin-right:5px;"></i>Pentest-Pflicht für Dienstleister · Redundanzanforderungen · KRITIS-konforme SLAs</div>
+                </div>
               </div>
+            </div>
+
+          </div>
+
+          <!-- Kernbefund -->
+          <div class="fragment" data-ll-step="3">
+            <div class="ll-verdict">
+              <span class="ll-verdict-label">Kernbefund</span>
+              <p>Technische Lücken bleiben ohne <strong>organisatorische Verantwortung</strong> dauerhaft offen – Zuständigkeiten, Budgets, Prozesse. Der Collins-Fall ist kein Ausreißer, sondern ein <strong>strukturelles Muster kritischer Infrastruktur.</strong></p>
             </div>
           </div>
-          <div class="card fragment fade-up" style="margin-top:16px; border-left:3px solid #FFD700; background:rgba(255,215,0,0.06); padding:16px 20px;">
-            <p style="font-size:11.5pt; line-height:1.7;"><strong style="color:#FFD700;">Kernbefund:</strong> Technische Sicherheitslücken bleiben ohne organisatorische Verantwortung – klare Zuständigkeiten, Budgets, Prozesse – dauerhaft offen. Der Collins-Fall ist kein Einzelfall, sondern ein strukturelles Muster kritischer Infrastruktur.</p>
-          </div>
+
         </div>
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
       </section>
@@ -601,37 +624,68 @@
       <section id="lessons-further">
         <h2><i class="fa-solid fa-shield-virus icon" style="color:#4FC3F7;"></i>Weitere Präventionsmaßnahmen</h2>
         <div class="content">
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px;">
-            <div class="lesson-card fragment fade-up" style="border-left:3px solid #E63946;">
-              <div class="lesson-icon"><i class="fa-solid fa-database" style="color:#E63946;"></i></div>
-              <div>
-                <p class="lesson-title" style="color:#E63946;">Netzwerk-Segmentierung</p>
-                <p>MUSE lief zwar außerhalb des RTX-Kernnetzwerks – interne Segmentierung fehlte jedoch offenbar. Kritische Systeme müssen in isolierten Zonen mit strikten Zugriffsregeln betrieben werden.</p>
+
+          <div class="lf-chain">
+
+            <!-- Step 0: Netzwerk-Segmentierung -->
+            <div class="fragment" data-lf-step="0">
+              <div class="lf-step" style="--lf-color:#E63946;">
+                <div class="lf-indicator"><i class="fa-solid fa-network-wired"></i></div>
+                <div class="lf-body">
+                  <div class="lf-badge">Netzwerk-Segmentierung</div>
+                  <p class="lf-title">Kein implizites Vertrauen innerhalb des Perimeters</p>
+                  <p class="lf-text">MUSE lief außerhalb des RTX-Kernnetzes – interne Segmentierung fehlte. Einmal im System war <strong>Lateralbewegung bis zu den Core-Databases</strong> möglich. Kritische Zonen mit explizit erlaubten Verbindungen, alles andere blockiert.</p>
+                </div>
               </div>
             </div>
-            <div class="lesson-card fragment fade-up" style="border-left:3px solid #FF8C00;">
-              <div class="lesson-icon"><i class="fa-solid fa-hammer" style="color:#FF8C00;"></i></div>
-              <div>
-                <p class="lesson-title" style="color:#FF8C00;">Incident Response</p>
-                <p>Mehrfache Reinfektionen zeigen eine mangelnde Containment-Strategie. IR-Pläne müssen Supply-Chain-Szenarien explizit abdecken – inklusive koordinierter Kommunikation mit betroffenen Dritten.</p>
+
+            <!-- Step 1: Incident Response -->
+            <div class="fragment" data-lf-step="1">
+              <div class="lf-step" style="--lf-color:#FF8C00;">
+                <div class="lf-indicator"><i class="fa-solid fa-hammer"></i></div>
+                <div class="lf-body">
+                  <div class="lf-badge">Incident Response</div>
+                  <p class="lf-title">Supply-Chain-Szenarien explizit einplanen</p>
+                  <p class="lf-text">Mehrfachreinfektionen zeigen: Containment war unvollständig. <strong>IR-Pläne müssen Drittparteien einschließen</strong> – koordinierte Kommunikation, isoliertes Wiederanlaufen, klare Zuständigkeitsketten.</p>
+                </div>
               </div>
             </div>
-            <div class="lesson-card fragment fade-up" style="border-left:3px solid #FFD700;">
-              <div class="lesson-icon"><i class="fa-solid fa-rotate" style="color:#FFD700;"></i></div>
-              <div>
-                <p class="lesson-title" style="color:#FFD700;">Redundanz &amp; Fallback</p>
-                <p>Positivbeispiel FMO: eigenes Backendsystem verhinderte den Totalausfall. Graceful Degradation muss architektonisch verankert sein – nicht als Notbehelf, sondern als Designprinzip.</p>
+
+            <!-- Step 2: Redundanz & Fallback -->
+            <div class="fragment" data-lf-step="2">
+              <div class="lf-step" style="--lf-color:#FFD700;">
+                <div class="lf-indicator"><i class="fa-solid fa-rotate"></i></div>
+                <div class="lf-body">
+                  <div class="lf-badge">Redundanz &amp; Fallback</div>
+                  <p class="lf-title">Graceful Degradation als Designprinzip</p>
+                  <p class="lf-text">FMO: eigenes Backend verhinderte Totalausfall. <strong>Architektonische Pflicht für KRITIS</strong>, nicht nachträgliche Absicherung. „No one ever planned for a day when common use itself would need a backup." <span class="text-muted">(Branchenexperte, Feb. 2026)</span></p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Step 3: Regulatorik -->
+          <div class="fragment" data-lf-step="3">
+            <div class="lf-reg-block">
+              <p class="lf-reg-label">Regulatorische Verankerung</p>
+              <div class="lf-reg-items">
+                <div class="lf-reg-item">
+                  <span class="lf-reg-badge" style="color:#4FC3F7; border-color:rgba(79,195,247,0.35);">NIS2 Art. 21</span>
+                  <span>Segmentierung (g) &amp; Incident Response (b) als Cyber-Hygiene-Pflicht – <strong style="color:#4FC3F7;">direkt bußgeldbewehrt</strong></span>
+                </div>
+                <div class="lf-reg-item">
+                  <span class="lf-reg-badge" style="color:#00C9A7; border-color:rgba(0,201,167,0.35);">DSGVO Art. 32</span>
+                  <span>Mangelnde Segmentierung begründet <strong style="color:#00C9A7;">direkte Haftung</strong> bei Datenschutzverletzungen</span>
+                </div>
+                <div class="lf-reg-item">
+                  <span class="lf-reg-badge" style="color:#FF8C00; border-color:rgba(255,140,0,0.35);">CRA ab 2027</span>
+                  <span>Redundanzpflicht für digitale Produkte · ENISA-Meldepflicht ab <strong style="color:#FF8C00;">Sept. 2026</strong></span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="card fragment fade-up" style="margin-top:16px; border-top:3px solid #4FC3F7; padding:16px 20px;">
-            <p style="font-family:var(--heading-font); font-size:10pt; font-weight:700; color:var(--muted-color); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">Regulatorische Einordnung</p>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; font-size:11pt; line-height:1.6;">
-              <p><strong style="color:#4FC3F7;">NIS2</strong> Art.&nbsp;21 Abs.&nbsp;2 verlangt technische und organisatorische Maßnahmen; Segmentierung fällt als Teil der Cyber-Hygiene-Pflichten unter Buchstabe (g), Incident Response unter Buchstabe (b). Verstöße sind direkt bußgeldbewehrt.</p>
-              <p><strong style="color:#00C9A7;">DSGVO</strong> Art.&nbsp;32 fordert angemessene technische Maßnahmen – mangelnde Segmentierung begründet direkt Haftung bei Datenschutzverletzungen.</p>
-              <p><strong style="color:#FF8C00;">CRA</strong> verankert Redundanzanforderungen für Produkte mit digitalen Elementen ab Dez. 2027 vollständig; Meldepflichten an ENISA greifen bereits ab Sept. 2026.</p>
-            </div>
-          </div>
+
         </div>
         <div class="footnote">Methodenkompetenz IT-Sicherheit | Collins Aerospace Ransomware-Angriff</div>
       </section>

@@ -119,53 +119,123 @@ deck.initialize().then(() => {
 
   // ─── Attack-Vector: per-fragment GSAP animations ───────────────────────
   deck.on('fragmentshown', ({ fragment }) => {
-    if (deck.getCurrentSlide()?.id !== 'attack-vector') return
-    const step = fragment.dataset?.avStep
-    if (step === undefined) return
+    const slideId = deck.getCurrentSlide()?.id
 
-    const node = fragment.querySelector('.av-node')
-    const connector = fragment.querySelector('.av-connector')
+    // ── Attack-Vector ───────────────────────────────────────────────────────
+    if (slideId === 'attack-vector') {
+      const step = fragment.dataset?.avStep
+      if (step === undefined) return
 
-    // Node pop-in with bounce
-    gsap.fromTo(node,
-      { scale: 0.3, opacity: 0 },
-      {
-        scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)', delay: 0.2,
-        onComplete: () => node.classList.add('av-node-active'),
+      const node = fragment.querySelector('.av-node')
+      const connector = fragment.querySelector('.av-connector')
+
+      gsap.fromTo(node,
+        { scale: 0.3, opacity: 0 },
+        {
+          scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(1.7)', delay: 0.2,
+          onComplete: () => node.classList.add('av-node-active'),
+        }
+      )
+
+      if (connector) {
+        gsap.to(connector, { scaleY: 1, duration: 0.55, ease: 'power2.out', delay: 0.55 })
       }
-    )
 
-    // Connector draws itself downward
-    if (connector) {
-      gsap.to(connector, { scaleY: 1, duration: 0.55, ease: 'power2.out', delay: 0.55 })
+      if (step === '3') {
+        const overlay = document.createElement('div')
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#E63946;z-index:9999;pointer-events:none;opacity:0;'
+        document.body.appendChild(overlay)
+        gsap.timeline()
+          .to(overlay, { opacity: 0.5, duration: 0.07 })
+          .to(overlay, { opacity: 0, duration: 0.7, ease: 'power2.out', onComplete: () => overlay.remove() })
+
+        gsap.timeline({ delay: 0.35 })
+          .to(fragment, { x: -11, duration: 0.05 })
+          .to(fragment, { x:  11, duration: 0.05 })
+          .to(fragment, { x:  -8, duration: 0.05 })
+          .to(fragment, { x:   8, duration: 0.05 })
+          .to(fragment, { x:  -4, duration: 0.05 })
+          .to(fragment, { x:   0, duration: 0.05 })
+      }
     }
 
-    // Step 4 – Ransomware: red flash + screen shake
-    if (step === '3') {
-      const overlay = document.createElement('div')
-      overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#E63946;z-index:9999;pointer-events:none;opacity:0;'
-      document.body.appendChild(overlay)
-      gsap.timeline()
-        .to(overlay, { opacity: 0.5, duration: 0.07 })
-        .to(overlay, { opacity: 0, duration: 0.7, ease: 'power2.out', onComplete: () => overlay.remove() })
+    // ── Lessons Learned ──────────────────────────────────────────────────────
+    if (slideId === 'lessons') {
+      if (fragment.dataset?.llStep === undefined) return
 
-      gsap.timeline({ delay: 0.35 })
-        .to(fragment, { x: -11, duration: 0.05 })
-        .to(fragment, { x:  11, duration: 0.05 })
-        .to(fragment, { x:  -8, duration: 0.05 })
-        .to(fragment, { x:   8, duration: 0.05 })
-        .to(fragment, { x:  -4, duration: 0.05 })
-        .to(fragment, { x:   0, duration: 0.05 })
+      const item    = fragment.querySelector('.ll-item')
+      const verdict = fragment.querySelector('.ll-verdict')
+
+      if (item) {
+        gsap.to(item, { opacity: 1, x: 0, duration: 0.5, ease: 'power3.out', delay: 0.05 })
+        gsap.fromTo(
+          item.querySelector('.ll-num'),
+          { scale: 0.5, opacity: 0.25 },
+          { scale: 1, opacity: 1, duration: 0.4, ease: 'back.out(2.2)', delay: 0.18 }
+        )
+        gsap.to(item.querySelector('.ll-fix'), {
+          opacity: 1, duration: 0.35, ease: 'power2.out', delay: 0.42,
+        })
+      }
+
+      if (verdict) {
+        gsap.to(verdict, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out', delay: 0.08 })
+      }
+    }
+
+    // ── Lessons Further: Prevention Measures ────────────────────────────────
+    if (slideId === 'lessons-further') {
+      if (fragment.dataset?.lfStep === undefined) return
+
+      const stepEl = fragment.querySelector('.lf-step')
+      const reg    = fragment.querySelector('.lf-reg-block')
+
+      if (stepEl) {
+        gsap.to(stepEl, { opacity: 1, x: 0, duration: 0.55, ease: 'power3.out', delay: 0.05 })
+        gsap.fromTo(
+          stepEl.querySelector('.lf-indicator'),
+          { scale: 0.35 },
+          { scale: 1, duration: 0.45, ease: 'back.out(2.2)', delay: 0.2 }
+        )
+      }
+
+      if (reg) {
+        gsap.to(reg, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.05 })
+        gsap.from(reg.querySelectorAll('.lf-reg-item'), {
+          opacity: 0, x: -18, stagger: 0.1, duration: 0.38, ease: 'power2.out', delay: 0.28,
+        })
+      }
     }
   })
 
   deck.on('fragmenthidden', ({ fragment }) => {
-    if (deck.getCurrentSlide()?.id !== 'attack-vector') return
-    if (fragment.dataset?.avStep === undefined) return
+    const slideId = deck.getCurrentSlide()?.id
 
-    const node = fragment.querySelector('.av-node')
-    const connector = fragment.querySelector('.av-connector')
-    if (node)      { node.classList.remove('av-node-active'); gsap.set(node, { scale: 0.3, opacity: 0 }) }
-    if (connector) { gsap.set(connector, { scaleY: 0 }) }
+    if (slideId === 'attack-vector') {
+      if (fragment.dataset?.avStep === undefined) return
+      const node = fragment.querySelector('.av-node')
+      const connector = fragment.querySelector('.av-connector')
+      if (node)      { node.classList.remove('av-node-active'); gsap.set(node, { scale: 0.3, opacity: 0 }) }
+      if (connector) { gsap.set(connector, { scaleY: 0 }) }
+      return
+    }
+
+    if (slideId === 'lessons') {
+      const item    = fragment.querySelector('.ll-item')
+      const verdict = fragment.querySelector('.ll-verdict')
+      if (item) {
+        gsap.set(item, { opacity: 0, x: 32 })
+        gsap.set(item.querySelector('.ll-num'), { scale: 0.5, opacity: 0.25 })
+        gsap.set(item.querySelector('.ll-fix'), { opacity: 0 })
+      }
+      if (verdict) gsap.set(verdict, { opacity: 0, scale: 0.97 })
+    }
+
+    if (slideId === 'lessons-further') {
+      const stepEl = fragment.querySelector('.lf-step')
+      const reg    = fragment.querySelector('.lf-reg-block')
+      if (stepEl) gsap.set(stepEl, { opacity: 0, x: -32 })
+      if (reg)    gsap.set(reg, { opacity: 0 })
+    }
   })
 })
