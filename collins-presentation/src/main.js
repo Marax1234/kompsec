@@ -37,6 +37,36 @@ async function initParticles() {
 }
 initParticles()
 
+// ─── Decktape-Fix: fragments:false → GSAP-Elemente direkt sichtbar machen ────
+// Decktape ruft Reveal.configure({ fragments: false }) auf, wodurch
+// fragmentshown nie feuert und GSAP-Elemente unsichtbar bleiben.
+// Lösung: configure() patchen und bei fragments:false alle Elemente sofort zeigen.
+function showAllGSAPElements(slideEl) {
+  if (!slideEl) return
+  const show = (sel, styles) =>
+    slideEl.querySelectorAll(sel).forEach(el => Object.assign(el.style, styles))
+  const id = slideEl.id
+  if (id === 'lessons') {
+    show('.ll-item',    { opacity: '1', transform: 'translateX(0)' })
+    show('.ll-num',     { opacity: '1', transform: 'scale(1)' })
+    show('.ll-fix',     { opacity: '1' })
+    show('.ll-verdict', { opacity: '1', transform: 'scale(1)' })
+  }
+  if (id === 'lessons-further') {
+    show('.lf-step',      { opacity: '1', transform: 'translateX(0)' })
+    show('.lf-reg-block', { opacity: '1' })
+  }
+  if (id === 'timeline' || id === 'timeline-2') {
+    show('.tl-scene', { opacity: '1' })
+    show('.tl-act:not(.tl-act-static)', { opacity: '1', transform: 'none' })
+    show('.tl-line',  { transform: 'scaleY(1)' })
+  }
+  if (id === 'attack-vector') {
+    show('.av-node',      { opacity: '1', transform: 'scale(1)' })
+    show('.av-connector', { transform: 'scaleY(1)' })
+  }
+}
+
 // ─── GSAP: stagger entrances per slide ───────────────────────────────────────
 const animatedSlides = new Set()
 
@@ -130,6 +160,97 @@ function avDropBomb(container, x, H) {
   })
 }
 
+// ─── Audio helpers (Web Audio API) ──────────────────────────────────────────
+function avAudioCtx() {
+  try { return new (window.AudioContext || window.webkitAudioContext)() } catch { return null }
+}
+
+function avSoundExplosion() {
+  const ctx = avAudioCtx(); if (!ctx) return
+  // Sub-bass thump
+  const bass = ctx.createOscillator()
+  const bassG = ctx.createGain()
+  bass.type = 'sine'
+  bass.frequency.setValueAtTime(100, ctx.currentTime)
+  bass.frequency.exponentialRampToValueAtTime(22, ctx.currentTime + 0.45)
+  bassG.gain.setValueAtTime(1.1, ctx.currentTime)
+  bassG.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.45)
+  bass.connect(bassG); bassG.connect(ctx.destination)
+  bass.start(); bass.stop(ctx.currentTime + 0.45)
+  // Noise burst
+  const len = ctx.sampleRate * 0.65
+  const buf = ctx.createBuffer(1, len, ctx.sampleRate)
+  const d = buf.getChannelData(0)
+  for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 1.4)
+  const noise = ctx.createBufferSource(); noise.buffer = buf
+  const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'
+  lp.frequency.setValueAtTime(1400, ctx.currentTime)
+  lp.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.35)
+  const ng = ctx.createGain()
+  ng.gain.setValueAtTime(0.7, ctx.currentTime)
+  ng.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.65)
+  noise.connect(lp); lp.connect(ng); ng.connect(ctx.destination)
+  noise.start()
+}
+
+function avSoundSiren() {
+  const ctx = avAudioCtx(); if (!ctx) return ctx
+  const osc = ctx.createOscillator()
+  const g   = ctx.createGain()
+  osc.type = 'sawtooth'
+  osc.frequency.setValueAtTime(320, ctx.currentTime)
+  osc.frequency.linearRampToValueAtTime(720, ctx.currentTime + 0.55)
+  osc.frequency.linearRampToValueAtTime(320, ctx.currentTime + 1.1)
+  osc.frequency.linearRampToValueAtTime(720, ctx.currentTime + 1.65)
+  osc.frequency.linearRampToValueAtTime(320, ctx.currentTime + 2.2)
+  g.gain.setValueAtTime(0, ctx.currentTime)
+  g.gain.linearRampToValueAtTime(0.13, ctx.currentTime + 0.15)
+  g.gain.setValueAtTime(0.13, ctx.currentTime + 2.0)
+  g.gain.linearRampToValueAtTime(0, ctx.currentTime + 2.2)
+  osc.connect(g); g.connect(ctx.destination)
+  osc.start(); osc.stop(ctx.currentTime + 2.2)
+  return ctx
+}
+
+function avSoundBeeps(ctx) {
+  if (!ctx) return
+  try {
+    const freqs = [1600, 1000, 1600, 1000, 1600, 1000]
+    freqs.forEach((f, i) => {
+      const osc = ctx.createOscillator()
+      const g   = ctx.createGain()
+      const t   = ctx.currentTime + i * 0.16
+      osc.type = 'square'; osc.frequency.value = f
+      g.gain.setValueAtTime(0, t)
+      g.gain.linearRampToValueAtTime(0.07, t + 0.02)
+      g.gain.setValueAtTime(0.07, t + 0.13)
+      g.gain.linearRampToValueAtTime(0, t + 0.15)
+      osc.connect(g); g.connect(ctx.destination)
+      osc.start(t); osc.stop(t + 0.15)
+    })
+  } catch { /* noop */ }
+}
+
+function avStaticCanvas(durationMs) {
+  const c = document.createElement('canvas')
+  c.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10001;pointer-events:none;image-rendering:pixelated;'
+  c.width = 240; c.height = 135
+  document.body.appendChild(c)
+  const cx = c.getContext('2d')
+  const end = performance.now() + durationMs
+  ;(function draw() {
+    if (performance.now() > end) { c.remove(); return }
+    const id = cx.createImageData(240, 135)
+    for (let i = 0; i < id.data.length; i += 4) {
+      const v = Math.random() * 255 | 0
+      id.data[i] = id.data[i + 1] = id.data[i + 2] = v
+      id.data[i + 3] = 200
+    }
+    cx.putImageData(id, 0, 0)
+    requestAnimationFrame(draw)
+  })()
+}
+
 // ─── Reveal.js ───────────────────────────────────────────────────────────────
 const deck = new Reveal({
   width: 1280,
@@ -152,6 +273,17 @@ const deck = new Reveal({
 deck.initialize().then(() => {
   // Expose instance for headless export tools (e.g. decktape)
   window.Reveal = deck
+
+  // ── Decktape-Patch: configure({fragments:false}) abfangen ────────────────
+  const _origConfigure = deck.configure.bind(deck)
+  deck.configure = function (config) {
+    _origConfigure(config)
+    if (config.fragments === false) {
+      // Decktape hat Fragmente deaktiviert → alle GSAP-Elemente sofort zeigen
+      showAllGSAPElements(deck.getCurrentSlide())
+      deck.on('slidechanged', ({ currentSlide }) => showAllGSAPElements(currentSlide))
+    }
+  }
 
   // Animate the first visible slide
   animateSlide(deck.getCurrentSlide())
@@ -186,55 +318,146 @@ deck.initialize().then(() => {
         const W = window.innerWidth
         const H = window.innerHeight
 
-        // ── Stage container for all cinematic elements ────────────────────
+        // ── Stage ─────────────────────────────────────────────────────────
         const stage = document.createElement('div')
         stage.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9998;pointer-events:none;overflow:hidden;'
         document.body.appendChild(stage)
 
-        // ── Plane ─────────────────────────────────────────────────────────
+        // ── Siren begins immediately ───────────────────────────────────────
+        const sirenCtx = avSoundSiren()
+
+        // ── Plane: bigger, glowing, with vapour trail dots ─────────────────
         const plane = document.createElement('div')
         plane.textContent = '✈'
-        plane.style.cssText = 'position:absolute;font-size:80px;line-height:1;color:#fff;text-shadow:0 0 24px #fff,0 0 8px #ccc;'
+        plane.style.cssText = 'position:absolute;font-size:110px;line-height:1;color:#fff;text-shadow:0 0 40px #fff,0 0 14px #aaa,0 0 60px rgba(255,140,0,0.5);'
         stage.appendChild(plane)
-
-        // Enter from right side, fly left then nose-dive
-        gsap.set(plane, { x: W + 80, y: H * 0.28, scaleX: -1, rotation: -8 })
+        gsap.set(plane, { x: W + 110, y: H * 0.20, scaleX: -1, rotation: -6 })
 
         gsap.timeline()
           .to(plane, {
-            x: W * 0.25, y: H * 0.40, rotation: -14, scaleX: -1,
-            duration: 1.1, ease: 'power1.inOut',
+            x: W * 0.26, y: H * 0.36, rotation: -13, scaleX: -1,
+            duration: 1.05, ease: 'power1.inOut',
           })
           .to(plane, {
-            x: W * 0.07, y: H * 0.80, rotation: -70, scaleX: -1,
-            duration: 0.5, ease: 'power3.in',
+            x: W * 0.06, y: H * 0.79, rotation: -78, scaleX: -1,
+            duration: 0.42, ease: 'power3.in',
             onComplete() {
               plane.remove()
-              avCrashExplosion(stage, W * 0.07, H * 0.80)
 
-              // Red screen flash
-              const overlay = document.createElement('div')
-              overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#E63946;pointer-events:none;opacity:0;z-index:9999;'
-              document.body.appendChild(overlay)
+              // ── BOOM ─────────────────────────────────────────────────────
+              avSoundExplosion()
+              avCrashExplosion(stage, W * 0.06, H * 0.79)
+              gsap.delayedCall(0.07, () => avCrashExplosion(stage, W * 0.06 + 35, H * 0.79 - 25))
+              gsap.delayedCall(0.14, () => avCrashExplosion(stage, W * 0.06 - 25, H * 0.79 + 35))
+
+              // ── Violent red double-flash ────────────────────────────────
+              const flash = document.createElement('div')
+              flash.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#E63946;pointer-events:none;opacity:0;z-index:9999;'
+              document.body.appendChild(flash)
               gsap.timeline()
-                .to(overlay, { opacity: 0.55, duration: 0.07 })
-                .to(overlay, { opacity: 0, duration: 0.8, ease: 'power2.out', onComplete: () => overlay.remove() })
+                .to(flash, { opacity: 0.85, duration: 0.04 })
+                .to(flash, { opacity: 0.15, duration: 0.07 })
+                .to(flash, { opacity: 0.65, duration: 0.04 })
+                .to(flash, { opacity: 0,    duration: 0.25, onComplete: () => flash.remove() })
 
-              // Drop bombs with stagger
-              ;[0.28, 0.46, 0.62, 0.38, 0.54].forEach((fx, i) => {
-                gsap.delayedCall(0.2 + i * 0.22, () => avDropBomb(stage, fx * W, H))
+              // ── Violent shake (whole slide) ─────────────────────────────
+              const slide = deck.getCurrentSlide()
+              gsap.timeline({ delay: 0.02 })
+                .to(slide, { x: -18, duration: 0.04 })
+                .to(slide, { x:  18, duration: 0.04 })
+                .to(slide, { x: -14, duration: 0.04 })
+                .to(slide, { x:  14, duration: 0.04 })
+                .to(slide, { x:  -9, duration: 0.04 })
+                .to(slide, { x:   9, duration: 0.04 })
+                .to(slide, { x:  -5, duration: 0.04 })
+                .to(slide, { x:   5, duration: 0.04 })
+                .to(slide, { x:   0, duration: 0.03 })
+
+              // ── Bomb wave ───────────────────────────────────────────────
+              ;[0.18, 0.33, 0.50, 0.66, 0.80, 0.42, 0.60, 0.28, 0.72].forEach((fx, i) => {
+                gsap.delayedCall(0.1 + i * 0.17, () => avDropBomb(stage, fx * W, H))
               })
 
-              // Shake fragment
-              gsap.timeline({ delay: 0.15 })
-                .to(fragment, { x: -11, duration: 0.05 })
-                .to(fragment, { x:  11, duration: 0.05 })
-                .to(fragment, { x:  -8, duration: 0.05 })
-                .to(fragment, { x:   8, duration: 0.05 })
-                .to(fragment, { x:  -4, duration: 0.05 })
-                .to(fragment, { x:   0, duration: 0.05 })
+              // ── Brief signal-loss: blackout + static ────────────────────
+              gsap.delayedCall(0.32, () => {
+                const black = document.createElement('div')
+                black.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000;pointer-events:none;opacity:0;z-index:10000;'
+                document.body.appendChild(black)
+                gsap.timeline()
+                  .to(black, { opacity: 1, duration: 0.06 })
+                  .call(() => avStaticCanvas(160))
+                  .to(black, { opacity: 0, duration: 0.07, delay: 0.14, onComplete: () => black.remove() })
+              })
 
-              gsap.delayedCall(5, () => stage.remove())
+              // ── HARDBIT TAKEOVER OVERLAY ─────────────────────────────────
+              gsap.delayedCall(0.68, () => {
+                avSoundBeeps(sirenCtx)
+
+                const hb = document.createElement('div')
+                hb.className = 'hb-takeover'
+                hb.innerHTML = `
+                  <div class="hb-frame"></div>
+                  <div class="hb-corner hb-tl">HARDBIT v4.0 &nbsp;·&nbsp; ENCRYPTION ACTIVE</div>
+                  <div class="hb-corner hb-tr">SYS://MUSE_CORE &nbsp;·&nbsp; COMPROMISED</div>
+                  <div class="hb-corner hb-bl">UTC 2025-09-20 &nbsp;·&nbsp; 00:47:13</div>
+                  <div class="hb-corner hb-br">TARGET: COLLINS AEROSPACE / ARINC</div>
+                  <p class="hb-alert-label">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    &nbsp;CRITICAL SYSTEM FAILURE&nbsp;
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                  </p>
+                  <h2 class="hb-main-title">RANSOMWARE<br>DETECTED</h2>
+                  <p class="hb-sub">HARDBIT — ENCRYPTING CORE DATABASES</p>
+                  <div class="hb-progress-wrap">
+                    <div class="hb-progress-meta">
+                      <span>ENCRYPTION PROGRESS</span><span id="hb-pct">0%</span>
+                    </div>
+                    <div class="hb-track"><div class="hb-fill" id="hb-fill"></div></div>
+                  </div>
+                  <div class="hb-stats">
+                    <div class="hb-stat">FILES ENCRYPTED <span id="hb-files">0</span></div>
+                    <div class="hb-stat">SYSTEMS OFFLINE <span>MUSE_CORE.exe</span></div>
+                    <div class="hb-stat">AIRPORTS AFFECTED <span>5</span></div>
+                    <div class="hb-stat">RANSOM KEY <span>HB-2025-█████</span></div>
+                  </div>`
+                hb.style.opacity = '0'
+                document.body.appendChild(hb)
+
+                // Glitch entrance
+                gsap.timeline()
+                  .set(hb, { skewX: 12, opacity: 1 })
+                  .to(hb, { skewX: 0, duration: 0.28, ease: 'power3.out' })
+
+                // Progress bar + counters
+                let prog = 0
+                const ticker = setInterval(() => {
+                  prog = Math.min(100, prog + Math.random() * 7 + 3)
+                  const fill = document.getElementById('hb-fill')
+                  const pct  = document.getElementById('hb-pct')
+                  const fc   = document.getElementById('hb-files')
+                  if (fill) fill.style.width = prog + '%'
+                  if (pct)  pct.textContent  = Math.floor(prog) + '%'
+                  if (fc)   fc.textContent   = Math.floor(prog / 100 * 1847293).toLocaleString('de-DE')
+                  if (prog >= 100) clearInterval(ticker)
+                }, 75)
+
+                // Fade out + cleanup
+                gsap.delayedCall(3.8, () => {
+                  gsap.to(hb, {
+                    opacity: 0, skewX: -8, duration: 0.5, ease: 'power2.in',
+                    onComplete: () => { clearInterval(ticker); hb.remove() }
+                  })
+                })
+              })
+
+              // ── Red ambient tint lingers on slide ───────────────────────
+              const tint = document.createElement('div')
+              tint.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#E63946;pointer-events:none;opacity:0;z-index:9996;'
+              document.body.appendChild(tint)
+              gsap.to(tint, { opacity: 0.07, duration: 0.6 })
+              gsap.delayedCall(5.5, () => gsap.to(tint, { opacity: 0, duration: 1.2, onComplete: () => tint.remove() }))
+
+              gsap.delayedCall(6.5, () => stage.remove())
             },
           })
       }

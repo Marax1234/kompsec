@@ -44,7 +44,7 @@ def main():
             [
                 "npx", "decktape", "reveal",
                 "--size", "1280x720",
-                "--pause", "1500",
+                "--pause", "2000",
                 "--load-pause", "3000",
                 URL,
                 OUTPUT,
