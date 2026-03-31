@@ -18,18 +18,18 @@ async function initParticles() {
       background: { color: { value: 'transparent' } },
       fpsLimit: 60,
       particles: {
-        number: { value: 55, density: { enable: true } },
+        number: { value: 110, density: { enable: true } },
         color: { value: '#00C9A7' },
-        opacity: { value: 0.18 },
-        size: { value: { min: 1, max: 2.5 } },
+        opacity: { value: 0.55 },
+        size: { value: { min: 1.5, max: 4 } },
         links: {
           enable: true,
           color: '#00C9A7',
-          opacity: 0.07,
-          distance: 160,
-          width: 1,
+          opacity: 0.25,
+          distance: 180,
+          width: 1.2,
         },
-        move: { enable: true, speed: 0.6, outModes: 'bounce' },
+        move: { enable: true, speed: 1.1, outModes: 'bounce' },
       },
       detectRetina: true,
     },
@@ -89,6 +89,47 @@ function startTyped() {
   })
 }
 
+// ─── Attack-Vector: plane crash + bomb drop helpers ──────────────────────────
+function avCrashExplosion(container, x, y) {
+  // Fireball
+  const ball = document.createElement('div')
+  ball.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:12px;height:12px;
+    background:radial-gradient(circle,#fff 0%,#FFAA00 30%,#E63946 65%,transparent 100%);
+    border-radius:50%;transform:translate(-50%,-50%);`
+  container.appendChild(ball)
+  gsap.fromTo(ball,
+    { scale: 0, opacity: 1 },
+    { scale: 22, opacity: 0, duration: 1.0, ease: 'power2.out', onComplete: () => ball.remove() }
+  )
+  // Shockwave ring
+  const ring = document.createElement('div')
+  ring.style.cssText = `position:absolute;left:${x}px;top:${y}px;width:12px;height:12px;
+    border:3px solid #FF8C00;border-radius:50%;transform:translate(-50%,-50%);`
+  container.appendChild(ring)
+  gsap.fromTo(ring,
+    { scale: 0, opacity: 0.9 },
+    { scale: 20, opacity: 0, duration: 1.1, ease: 'power1.out', onComplete: () => ring.remove() }
+  )
+}
+
+function avDropBomb(container, x, H) {
+  const bomb = document.createElement('div')
+  bomb.textContent = '💣'
+  bomb.style.cssText = `position:absolute;font-size:38px;line-height:1;left:${x}px;top:-50px;transform:translateX(-50%);`
+  container.appendChild(bomb)
+  const landY = H * 0.75 + (Math.random() * 50 - 25)
+  gsap.to(bomb, {
+    y: landY + 55,
+    rotation: Math.random() * 80 - 40,
+    duration: 0.85 + Math.random() * 0.3,
+    ease: 'power2.in',
+    onComplete() {
+      bomb.remove()
+      avCrashExplosion(container, x, landY)
+    },
+  })
+}
+
 // ─── Reveal.js ───────────────────────────────────────────────────────────────
 const deck = new Reveal({
   width: 1280,
@@ -142,20 +183,60 @@ deck.initialize().then(() => {
       }
 
       if (step === '3') {
-        const overlay = document.createElement('div')
-        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#E63946;z-index:9999;pointer-events:none;opacity:0;'
-        document.body.appendChild(overlay)
-        gsap.timeline()
-          .to(overlay, { opacity: 0.5, duration: 0.07 })
-          .to(overlay, { opacity: 0, duration: 0.7, ease: 'power2.out', onComplete: () => overlay.remove() })
+        const W = window.innerWidth
+        const H = window.innerHeight
 
-        gsap.timeline({ delay: 0.35 })
-          .to(fragment, { x: -11, duration: 0.05 })
-          .to(fragment, { x:  11, duration: 0.05 })
-          .to(fragment, { x:  -8, duration: 0.05 })
-          .to(fragment, { x:   8, duration: 0.05 })
-          .to(fragment, { x:  -4, duration: 0.05 })
-          .to(fragment, { x:   0, duration: 0.05 })
+        // ── Stage container for all cinematic elements ────────────────────
+        const stage = document.createElement('div')
+        stage.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:9998;pointer-events:none;overflow:hidden;'
+        document.body.appendChild(stage)
+
+        // ── Plane ─────────────────────────────────────────────────────────
+        const plane = document.createElement('div')
+        plane.textContent = '✈'
+        plane.style.cssText = 'position:absolute;font-size:80px;line-height:1;color:#fff;text-shadow:0 0 24px #fff,0 0 8px #ccc;'
+        stage.appendChild(plane)
+
+        // Enter from right side, fly left then nose-dive
+        gsap.set(plane, { x: W + 80, y: H * 0.28, scaleX: -1, rotation: -8 })
+
+        gsap.timeline()
+          .to(plane, {
+            x: W * 0.25, y: H * 0.40, rotation: -14, scaleX: -1,
+            duration: 1.1, ease: 'power1.inOut',
+          })
+          .to(plane, {
+            x: W * 0.07, y: H * 0.80, rotation: -70, scaleX: -1,
+            duration: 0.5, ease: 'power3.in',
+            onComplete() {
+              plane.remove()
+              avCrashExplosion(stage, W * 0.07, H * 0.80)
+
+              // Red screen flash
+              const overlay = document.createElement('div')
+              overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#E63946;pointer-events:none;opacity:0;z-index:9999;'
+              document.body.appendChild(overlay)
+              gsap.timeline()
+                .to(overlay, { opacity: 0.55, duration: 0.07 })
+                .to(overlay, { opacity: 0, duration: 0.8, ease: 'power2.out', onComplete: () => overlay.remove() })
+
+              // Drop bombs with stagger
+              ;[0.28, 0.46, 0.62, 0.38, 0.54].forEach((fx, i) => {
+                gsap.delayedCall(0.2 + i * 0.22, () => avDropBomb(stage, fx * W, H))
+              })
+
+              // Shake fragment
+              gsap.timeline({ delay: 0.15 })
+                .to(fragment, { x: -11, duration: 0.05 })
+                .to(fragment, { x:  11, duration: 0.05 })
+                .to(fragment, { x:  -8, duration: 0.05 })
+                .to(fragment, { x:   8, duration: 0.05 })
+                .to(fragment, { x:  -4, duration: 0.05 })
+                .to(fragment, { x:   0, duration: 0.05 })
+
+              gsap.delayedCall(5, () => stage.remove())
+            },
+          })
       }
     }
 
